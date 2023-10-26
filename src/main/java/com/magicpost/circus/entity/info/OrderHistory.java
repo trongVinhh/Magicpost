@@ -1,4 +1,4 @@
-package com.magicpost.circus.entity.role;
+package com.magicpost.circus.entity.info;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class OrderHistory {
     private Long id;
-    private String name;
+    private String status;
+    private Order transactionId;
 }

@@ -1,6 +1,7 @@
-package com.magicpost.circus.entity.person;
+package com.magicpost.circus.entity.person.child;
 
 import com.magicpost.circus.entity.info.Account;
+import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.entity.role.Role;
 
 import lombok.AllArgsConstructor;
@@ -12,14 +13,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Employee {
-    private Long id;
-    private String firstName;
-    private String lastName;
-    private String phone;
-    private String email;
-    private String address;
-
-    public Role role;
+public class Manager extends Employee {
 
 }
