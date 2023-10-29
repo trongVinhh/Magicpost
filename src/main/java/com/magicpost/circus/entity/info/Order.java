@@ -2,6 +2,7 @@ package com.magicpost.circus.entity.info;
 
 import com.magicpost.circus.entity.company.branch.StorageOffice;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,14 +12,30 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "orders")
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "order_code")
     private String orderCode;
+    @Column(name = "receive_address")
     private String receiveAddress;
-    private String name;
+    @Column(name = "receiver_name")
+    private String receiver_name;
+    @Column(name = "phone_number")
     private String phoneNumber;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "current_storage", nullable = false)
     private StorageOffice currentStorage;
-    private Order orderId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "transaction_id", referencedColumnName = "id")
+    private Transaction transactionId;
+
+    @OneToOne(mappedBy = "orderId", cascade = CascadeType.ALL)
+    private OrderHistory orderHistory;
 
 }
