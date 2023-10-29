@@ -4,9 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d3c79d6-3a79-49f4-99f3-10ab874c655c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/child/ManagerStorage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/child/ManagerTransaction.java" afterDir="false" />
+    <list default="true" id="7fec722e-9c96-4459-81ec-219a4bb04f33" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/company/HeadOffice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/company/HeadOffice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/company/branch/StorageOffice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/company/branch/StorageOffice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/company/branch/TransactionOffice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/company/branch/TransactionOffice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/info/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/info/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/info/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/info/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/info/OrderHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/info/OrderHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/info/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/info/Transaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/child/EmployeeStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/child/EmployeeStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/child/EmployeeTransaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/child/EmployeeTransaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/child/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/child/Manager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/child/Shipper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/person/child/Shipper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/role/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/entity/role/Role.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,11 +38,17 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 2
-}]]></component>
-  <component name="ProjectId" id="2XL0z3F6VUYRVV8VPfEWkaMUTkS" />
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2XANsiGpyM2MnxZoxOfsSGkMh8z" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -39,15 +57,23 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "test__design__db",
-    "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "vcs.Git"
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/MyData/Dev/Springboot/circus",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "c5191509f4f6afc6f1a111663950e52d",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RunManager">
-    <configuration name="Main" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="com.magicpost.circus.CircusApplication" />
+    <configuration name="CircusApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="C:\Program Files\Java\jdk-17" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="circus" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.magicpost.circus.CircusApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -56,12 +82,30 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0d3c79d6-3a79-49f4-99f3-10ab874c655c" name="Changes" comment="" />
-      <created>1698393314644</created>
+      <changelist id="7fec722e-9c96-4459-81ec-219a4bb04f33" name="Changes" comment="" />
+      <created>1698068133187</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1698393314644</updated>
+      <updated>1698068133187</updated>
+      <workItem from="1698068134536" duration="716000" />
+      <workItem from="1698068862787" duration="107000" />
+      <workItem from="1698068985348" duration="1533000" />
+      <workItem from="1698242046688" duration="64000" />
+      <workItem from="1698242239110" duration="459000" />
+      <workItem from="1698337668711" duration="21000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.persistence:jakarta.persistence-api" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.data:spring-data-commons" />
+    <option featureType="com.intellij.configurationType" implementationName="SpringBootApplicationConfigurationType" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
+    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
   </component>
 </project>
