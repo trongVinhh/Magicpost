@@ -2,17 +2,16 @@ package com.magicpost.circus.entity.role;
 
 import com.magicpost.circus.entity.person.Employee;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+import java.util.List;
+
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "role", uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
+@Getter @Setter
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +19,23 @@ public class Role {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToOne(mappedBy = "role")
-    private Employee employee;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    private List<Employee> employees;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

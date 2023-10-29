@@ -32,7 +32,7 @@ public class Employee {
     private String email;
     @Column(name = "address")
     private String address;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     public Role role;
 
