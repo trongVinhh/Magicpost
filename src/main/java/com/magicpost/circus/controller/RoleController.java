@@ -17,20 +17,20 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Role> getRole(@PathVariable Long id) {
-        Role role = roleService.getRole(id);
+    public ResponseEntity<RoleDto> getRole(@PathVariable Long id) {
+        RoleDto role = roleService.getRole(id);
         return new ResponseEntity<>(role, HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<Role> createRole(@RequestBody RoleDto roleDto) {
-        Role role = roleService.createRole(roleDto);
+    public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto roleDto) {
+        RoleDto role = roleService.createRole(roleDto);
 
         return new ResponseEntity<>(role, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Role> updateRole(@PathVariable Long id, @RequestBody RoleDto roleDto) {
-        Role role = this.roleService.updateRole(id, roleDto);
+    public ResponseEntity<RoleDto> updateRole(@PathVariable Long id, @RequestBody RoleDto roleDto) {
+        RoleDto role = this.roleService.updateRole(id, roleDto);
         return new ResponseEntity<>(role, HttpStatus.OK);
     }
 

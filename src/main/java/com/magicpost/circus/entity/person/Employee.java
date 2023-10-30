@@ -33,18 +33,22 @@ public class Employee {
     @Column(name = "address")
     private String address;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     public Role role;
 
     @OneToOne(mappedBy = "employee")
     private Transaction transactionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "storage_id", referencedColumnName = "id")
+    @JoinColumn(name = "storage_id", referencedColumnName = "id", nullable = true)
     private StorageOffice storageOffice;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "transaction_office_id", referencedColumnName = "id")
+    @JoinColumn(name = "transaction_office_id", referencedColumnName = "id", nullable = true)
     private TransactionOffice transactionOffice;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
+    private Account account;
 
 }

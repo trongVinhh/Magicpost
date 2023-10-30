@@ -1,6 +1,7 @@
 package com.magicpost.circus.service.impl;
 
 import com.magicpost.circus.entity.role.Role;
+import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.RoleDto;
 import com.magicpost.circus.repository.RoleRepository;
 import com.magicpost.circus.service.RoleService;
@@ -21,39 +22,59 @@ public class RoleServiceImp implements RoleService {
     }
 
     @Override
-    public Role createRole(RoleDto roleDto) {
-        Role role = new Role();
-        role.setName(roleDto.getName());
+    public RoleDto createRole(RoleDto roleDto) {
+        Role role = this.mapToEntity(roleDto);
         // save
-        return roleRepository.save(role);
+        Role newRole = this.roleRepository.save(role);
+        return this.mapToDto(newRole);
     }
 
     @Override
-    public Role getRole(Long id) {
-        Optional<Role> role = this.roleRepository.findById(id);
-        return role.orElse(null);
+    public RoleDto getRole(Long id) {
+        Role role = this.roleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Role", "id", id));
+
+        return this.mapToDto(role);
     }
 
     @Override
     public void deleteRole(Long id) {
-        this.roleRepository.deleteById(id);
+
+        try {
+            this.roleRepository.deleteById(id);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Role", "id", id);
+        }
     }
 
     @Override
-    public Role updateRole(Long id ,RoleDto roleDto) {
-        Optional<Role> role = Optional.ofNullable(this.roleRepository.findById(id).orElseThrow(() -> new RuntimeException("Not exist")));
+    public RoleDto updateRole(Long id ,RoleDto roleDto) {
+        Optional<Role> role = Optional.ofNullable(this.roleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Role", "id", id)));
         Role roleUpdated = new Role();
         if (role.isPresent()) {
             role.get().setName(roleDto.getName());
             roleUpdated = this.roleRepository.save(role.get());
         }
 
-        return roleUpdated;
+        return this.mapToDto(roleUpdated);
     }
 
     @Override
     public List<Role> getRoles() {
         return this.roleRepository.findAll();
+    }
+
+    private Role mapToEntity(RoleDto roleDto) {
+        Role role = new Role();
+        role.setName(roleDto.getName());
+
+        return role;
+    }
+
+    private RoleDto mapToDto(Role role) {
+        RoleDto roleDto = new RoleDto();
+        roleDto.setId(role.getId());
+        roleDto.setName(role.getName());
+        return roleDto;
     }
 
 }

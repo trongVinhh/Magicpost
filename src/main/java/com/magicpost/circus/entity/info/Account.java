@@ -1,5 +1,6 @@
 package com.magicpost.circus.entity.info;
 
+import com.magicpost.circus.entity.person.Employee;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,4 +21,7 @@ public class Account {
     private String userName;
     @Column(name = "password")
     private String password;
+
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    private Employee employee;
 }
