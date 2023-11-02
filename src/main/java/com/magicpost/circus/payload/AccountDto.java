@@ -6,14 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-public class RoleDto {
+@NoArgsConstructor @AllArgsConstructor
+@Getter @Setter
+public class AccountDto {
     private Long id;
-    private String name;
-    private List<Employee> employees;
+    private String username;
+    private String password;
 }

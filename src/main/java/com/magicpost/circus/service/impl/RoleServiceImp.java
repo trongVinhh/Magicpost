@@ -5,7 +5,6 @@ import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.RoleDto;
 import com.magicpost.circus.repository.RoleRepository;
 import com.magicpost.circus.service.RoleService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +65,6 @@ public class RoleServiceImp implements RoleService {
     private Role mapToEntity(RoleDto roleDto) {
         Role role = new Role();
         role.setName(roleDto.getName());
-
         return role;
     }
 

@@ -56,6 +56,7 @@ public class CustomerServiceImp implements CustomerService {
     public CustomerDto updateCustomer(Long id, CustomerDto customerDto) {
         Optional<Customer> customer = Optional.ofNullable(this.customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer", "id", id)));
         Customer customerUpdated = new Customer();
+
         if (customer.isPresent()) {
             customer.get().setFirstName(customerDto.getFirstName());
             customer.get().setLastName(customerDto.getLastName());

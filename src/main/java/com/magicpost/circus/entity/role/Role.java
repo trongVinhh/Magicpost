@@ -19,7 +19,4 @@ public class Role {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    private List<Employee> employees;
-
 }

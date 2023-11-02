@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,9 +34,12 @@ public class Employee {
     private String email;
     @Column(name = "address")
     private String address;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
-    public Role role;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "employee_role",
+                joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    public List<Role> role;
 
     @OneToOne(mappedBy = "employee")
     private Transaction transactionId;
@@ -48,7 +53,7 @@ public class Employee {
     private TransactionOffice transactionOffice;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
 }
