@@ -1,5 +1,6 @@
 package com.magicpost.circus.entity.person;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
 import com.magicpost.circus.entity.info.Account;
@@ -41,8 +42,9 @@ public class Employee {
                 inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     public List<Role> role;
 
-    @OneToOne(mappedBy = "employee")
-    private Transaction transactionId;
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Transaction> transactionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storage_id", referencedColumnName = "id", nullable = true)

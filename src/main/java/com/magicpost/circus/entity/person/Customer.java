@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,7 +31,7 @@ public class Customer {
     @Column(name = "address")
     private String address;
 
-    @OneToOne(mappedBy = "customer")
-    private Transaction transactionId;
+    @OneToMany(mappedBy = "customer")
+    private List<Transaction> transactionId;
 
 }

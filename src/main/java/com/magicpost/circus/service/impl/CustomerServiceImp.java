@@ -23,6 +23,7 @@ public class CustomerServiceImp implements CustomerService {
     @Override
     public CustomerDto createCustomer(CustomerDto customerDto) {
         Customer customer = this.mapToEntity(customerDto);
+
         // save
         Customer newCustomer = this.customerRepository.save(customer);
         return this.mapToDto(newCustomer);

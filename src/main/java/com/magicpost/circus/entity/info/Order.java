@@ -18,14 +18,6 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "order_code")
-    private String orderCode;
-    @Column(name = "receive_address")
-    private String receiveAddress;
-    @Column(name = "receiver_name")
-    private String receiver_name;
-    @Column(name = "phone_number")
-    private String phoneNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "current_storage", nullable = false)

@@ -1,7 +1,6 @@
 package com.magicpost.circus.entity.company.branch;
 
 import com.magicpost.circus.entity.company.HeadOffice;
-import com.magicpost.circus.entity.info.Order;
 import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.entity.person.child.Manager;
@@ -35,7 +34,7 @@ public class TransactionOffice {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "manager_id", referencedColumnName = "id")
-    private Manager managerId;
+    private Employee managerId;
 
     @OneToMany(mappedBy = "transactionOffice", cascade = CascadeType.ALL)
     private List<Employee> employees;

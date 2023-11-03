@@ -43,6 +43,7 @@ com\magicpost\circus\controller\customer\CustomerController.class
 com\magicpost\circus\entity\person\Customer.class
 com\magicpost\circus\payload\RoleDto.class
 com\magicpost\circus\repository\StorageOfficeRepository.class
+com\magicpost\circus\controller\transaction\TransactionController.class
 com\magicpost\circus\service\impl\AccountServiceImp.class
 com\magicpost\circus\repository\RoleRepository.class
 com\magicpost\circus\payload\OrderDto.class
