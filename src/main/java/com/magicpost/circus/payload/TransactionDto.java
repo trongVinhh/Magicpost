@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -21,6 +23,7 @@ public class TransactionDto {
     private String receiveAddress;
     private String receiverName;
     private String phoneNumber;
+    private Date date;
     private Employee employee;
     private Customer customer;
     private Order order;

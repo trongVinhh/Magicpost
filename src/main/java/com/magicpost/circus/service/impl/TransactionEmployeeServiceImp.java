@@ -84,6 +84,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
     }
 
     @Override
+    @Transactional
     public Transaction updateTransaction(Long transactionId ,TransactionDto transactionDto, Long employeeId, Long transactionOfficeId, Long storageOfficeId) {
         Transaction transaction = this.transactionRepository.findById(transactionId).orElseThrow(() -> new ResourceNotFoundException("Transaction", "id", transactionId));
         Employee employee = this.employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
@@ -107,6 +108,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
     }
 
     @Override
+    @Transactional
     public Transaction getTransaction(Long id) {
         Transaction transaction = this.transactionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Transaction", "id", id));
         return transaction;
@@ -133,8 +135,6 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         transactionDto.setReceiveAddress(transaction.getReceiveAddress());
         transactionDto.setMass(transaction.getMass());
         transactionDto.setPhoneNumber(transaction.getPhoneNumber());
-
-
 
         return transactionDto;
     }

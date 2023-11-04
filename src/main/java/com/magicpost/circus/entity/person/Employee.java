@@ -21,9 +21,10 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "employee")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     @Column(name = "first_name")
     private String firstName;

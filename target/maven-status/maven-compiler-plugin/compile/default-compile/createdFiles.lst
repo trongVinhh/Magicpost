@@ -1,4 +1,3 @@
-com\magicpost\circus\entity\person\child\Manager.class
 com\magicpost\circus\entity\info\Account.class
 com\magicpost\circus\entity\person\child\EmployeeStorage.class
 com\magicpost\circus\service\CustomerService.class
@@ -23,6 +22,7 @@ com\magicpost\circus\service\impl\TransactionEmployeeServiceImp.class
 com\magicpost\circus\repository\TransactionOfficeRepository.class
 com\magicpost\circus\entity\info\Tracking.class
 com\magicpost\circus\entity\person\child\Shipper.class
+com\magicpost\circus\service\impl\DirectorServiceImp.class
 com\magicpost\circus\repository\CustomerRepository.class
 com\magicpost\circus\payload\AccountDto.class
 com\magicpost\circus\service\AccountService.class
@@ -34,6 +34,7 @@ com\magicpost\circus\payload\EmployeeDto.class
 com\magicpost\circus\repository\OrderRepository.class
 com\magicpost\circus\payload\TransactionDto.class
 com\magicpost\circus\entity\person\child\EmployeeTransaction.class
+com\magicpost\circus\service\DirectorService.class
 com\magicpost\circus\entity\info\Order.class
 com\magicpost\circus\entity\company\HeadOffice.class
 com\magicpost\circus\service\RoleService.class

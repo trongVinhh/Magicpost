@@ -1,4 +1,8 @@
 package com.magicpost.circus.entity.person.child;
 
-public class ManagerStorage extends Manager{
+import com.magicpost.circus.entity.person.Employee;
+import jakarta.persistence.Entity;
+
+@Entity
+public class ManagerStorage extends Employee {
 }
