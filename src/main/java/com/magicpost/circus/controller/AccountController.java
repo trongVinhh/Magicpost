@@ -38,6 +38,7 @@ public class AccountController {
         return new ResponseEntity<>("Account id: " + id + " was deleted", HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
     public ResponseEntity<AccountDto> updatedAccount(@PathVariable Long id, @RequestBody AccountDto accountDto) {
         return new ResponseEntity<>(this.accountService.updateAccount(id, accountDto), HttpStatus.OK);
     }

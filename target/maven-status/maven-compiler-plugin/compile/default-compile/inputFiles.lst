@@ -10,10 +10,10 @@ D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\entity\info\Order.jav
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\repository\OrderRepository.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\repository\StorageOfficeRepository.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\service\RoleService.java
+D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\entity\info\Tracking.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\entity\person\Employee.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\payload\EmployeeDto.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\controller\AccountController.java
-D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\entity\info\OrderHistory.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\exception\ResourceNotFoundException.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\repository\EmployeeRepository.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\controller\employee\EmployeeController.java
@@ -36,6 +36,7 @@ D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\service\impl\Employee
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\service\EmployeeService.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\payload\TransactionDto.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\service\impl\TransactionEmployeeServiceImp.java
+D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\exception\NotAuthorizeException.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\service\CustomerService.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\entity\company\branch\StorageOffice.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\entity\person\child\ManagerStorage.java

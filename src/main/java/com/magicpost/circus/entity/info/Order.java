@@ -28,6 +28,6 @@ public class Order {
     private Transaction transactionId;
 
     @OneToOne(mappedBy = "orderId", cascade = CascadeType.ALL)
-    private OrderHistory orderHistory;
+    private Tracking tracking;
 
 }

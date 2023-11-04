@@ -1,5 +1,6 @@
 package com.magicpost.circus.controller.transaction;
 
+import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.payload.TransactionDto;
 import com.magicpost.circus.service.TransactionEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,27 @@ public class TransactionController {
     }
 
     @PostMapping("/employee/{employeeId}/transaction-office/{transactionOfficeId}/storage-office/{storageOfficeId}")
-    public ResponseEntity<TransactionDto> createTransaction(@RequestBody TransactionDto transactionDto,
-                                                            @PathVariable Long employeeId,
-                                                            @PathVariable Long transactionOfficeId,
-                                                            @PathVariable Long storageOfficeId) {
-        TransactionDto dto = this.transactionEmployeeService.createTransaction(transactionDto, employeeId, transactionOfficeId, storageOfficeId);
-        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDto transactionDto,
+                                                         @PathVariable Long employeeId,
+                                                         @PathVariable Long transactionOfficeId,
+                                                         @PathVariable Long storageOfficeId) {
+        Transaction transaction = this.transactionEmployeeService.createTransaction(transactionDto, employeeId, transactionOfficeId, storageOfficeId);
+        return new ResponseEntity<>(transaction, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Transaction> getTransaction(@PathVariable Long id) {
+        Transaction transaction = this.transactionEmployeeService.getTransaction(id);
+        return new ResponseEntity<>(transaction, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/employee/{employeeId}/transaction-office/{transactionOfficeId}/storage-office/{storageOfficeId}")
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long id,
+                                                         @RequestBody TransactionDto transactionDto,
+                                                         @PathVariable Long employeeId,
+                                                         @PathVariable Long transactionOfficeId,
+                                                         @PathVariable Long storageOfficeId) {
+        Transaction transaction = this.transactionEmployeeService.updateTransaction(id, transactionDto, employeeId, transactionOfficeId, storageOfficeId);
+        return new ResponseEntity<>(transaction, HttpStatus.OK);
     }
 }
