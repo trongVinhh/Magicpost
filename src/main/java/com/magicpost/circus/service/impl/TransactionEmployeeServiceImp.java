@@ -50,17 +50,17 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
 
     @Override
     @Transactional
-    public Transaction createTransaction(TransactionDto transactionDto, Long employeeId, Long transactionOfficeId) {
+    public TransactionDto createTransaction(TransactionDto transactionDto) {
         Transaction transaction = this.mapToEntity(transactionDto);
+
+        Long employeeId = transactionDto.getEmployeeId();
+        Long transactionOfficeId = transactionDto.getTransactionOfficeId();
         Employee employee = this.employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
         TransactionOffice transactionOffice = this.transactionOfficeRepository.findById(transactionOfficeId).orElseThrow(() -> new ResourceNotFoundException("TransactionOffice", "id", transactionOfficeId));
-
         Customer customer = transactionDto.getCustomer();
 
         // set transaction
         transaction.setCustomer(customer);
-
-        // check role employee
         transaction.setEmployee(employee);
         transaction.setTransactionId(transactionOffice);
 
@@ -75,8 +75,9 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
 
         // save to database
 //        this.orderHistoryRepository.save(tracking);
+        Transaction temp = this.transactionRepository.save(transaction);
 
-        return this.transactionRepository.save(transaction);
+        return this.mapToDto(temp);
     }
 
     @Override
@@ -131,6 +132,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         transactionDto.setReceiveAddress(transaction.getReceiveAddress());
         transactionDto.setMass(transaction.getMass());
         transactionDto.setPhoneNumber(transaction.getPhoneNumber());
+        transactionDto.setCustomer(transaction.getCustomer());
 
         return transactionDto;
     }

@@ -46,21 +46,22 @@ public class Employee {
     public List<Role> role;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Transaction> transactionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storage_id", referencedColumnName = "id", nullable = true)
-    @JsonBackReference
+    @JsonIgnore
     private StorageOffice storageOffice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transaction_office_id", referencedColumnName = "id", nullable = true)
+    @JsonIgnore
     @JsonBackReference
     private TransactionOffice transactionOffice;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
-    @JsonBackReference
     private Account account;
 
 }

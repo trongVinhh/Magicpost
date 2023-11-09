@@ -1,6 +1,9 @@
 package com.magicpost.circus.entity.person;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.magicpost.circus.entity.info.Transaction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,6 +35,8 @@ public class Customer {
     private String address;
 
     @OneToMany(mappedBy = "customer")
+    @JsonManagedReference
+    @JsonIgnore
     private List<Transaction> transactionId;
 
 }

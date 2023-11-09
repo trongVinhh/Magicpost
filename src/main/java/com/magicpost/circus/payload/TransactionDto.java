@@ -24,6 +24,8 @@ public class TransactionDto {
     private String receiverName;
     private String phoneNumber;
     private Date date;
+    private Long employeeId;
+    private Long transactionOfficeId;
     private Employee employee;
     private Customer customer;
     private Order order;

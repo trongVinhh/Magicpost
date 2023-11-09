@@ -15,6 +15,6 @@ public interface DirectorService {
     List<EmployeeDto> getAllEmployeesOfStorageOffice(Long storageOfficeId);
     List<EmployeeDto> getAllEmployeesOfTransactionOffice(Long transactionOfficeId);
 
-    List<Order> getAllOrdersInStorage(Long storageOfficeId);
+    List<OrderDto> getAllOrdersInStorage(Long storageOfficeId);
 
 }

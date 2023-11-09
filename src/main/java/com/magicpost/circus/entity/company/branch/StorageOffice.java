@@ -42,7 +42,6 @@ public class StorageOffice {
     private List<Employee> employees;
 
     @OneToMany(mappedBy = "currentStorage", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<Order> orders;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

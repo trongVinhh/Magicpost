@@ -3,6 +3,7 @@ package com.magicpost.circus.controller;
 import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
 import com.magicpost.circus.entity.info.Order;
+import com.magicpost.circus.payload.OrderDto;
 import com.magicpost.circus.payload.StorageOfficeDto;
 import com.magicpost.circus.payload.TransactionOfficeDto;
 import com.magicpost.circus.service.DirectorService;
@@ -40,8 +41,8 @@ public class DirectorController {
     }
 
     @GetMapping("/storage/{storageOfficeId}/orders")
-    public ResponseEntity<List<Order>> getAllOrders(@PathVariable Long storageOfficeId) {
-        List<Order> orders = this.directorService.getAllOrdersInStorage(storageOfficeId);
+    public ResponseEntity<List<OrderDto>> getAllOrders(@PathVariable Long storageOfficeId) {
+        List<OrderDto> orders = this.directorService.getAllOrdersInStorage(storageOfficeId);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 }

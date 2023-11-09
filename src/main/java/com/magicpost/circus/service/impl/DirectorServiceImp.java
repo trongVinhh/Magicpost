@@ -83,6 +83,7 @@ public class DirectorServiceImp implements DirectorService {
             transactionOfficeDto.setAddress(transactionOffice.getAddress());
             transactionOfficeDto.setHotline(transactionOffice.getHotline());
             transactionOfficeDto.setEmail(transactionOffice.getEmail());
+            transactionOfficeDto.setEmployees(transactionOffice.getEmployees());
 
             // add to list
             transactionOfficeDtos.add(transactionOfficeDto);
@@ -103,11 +104,20 @@ public class DirectorServiceImp implements DirectorService {
     }
 
     @Override
-    public List<Order> getAllOrdersInStorage(Long storageOfficeId) {
+    public List<OrderDto> getAllOrdersInStorage(Long storageOfficeId) {
         StorageOffice storageOffice = this.storageOfficeRepository.findById(storageOfficeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Storage Office", "id", storageOfficeId));
         List<Order> orders = storageOffice.getOrders();
-        return orders;
+        List<OrderDto> orderDtos = new ArrayList<>();
+        orders.forEach(order -> {
+            OrderDto orderDto = new OrderDto();
+            orderDto.setId(order.getId());
+            orderDto.setCurrentStorageId(order.getCurrentStorage().getId());
+            orderDto.setTransactionId(order.getTransactionId().getId());
+
+            orderDtos.add(orderDto);
+        });
+        return orderDtos;
     }
 
     private Account mapToAccountEntity(AccountDto accountDto) {

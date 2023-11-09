@@ -18,13 +18,11 @@ public class TransactionController {
         this.transactionEmployeeService = transactionEmployeeService;
     }
 
-    @PostMapping("/employee/{employeeId}/transaction-office/{transactionOfficeId}")
-    public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDto transactionDto,
-                                                         @PathVariable Long employeeId,
-                                                         @PathVariable Long transactionOfficeId
+    @PostMapping
+    public ResponseEntity<TransactionDto> createTransaction(@RequestBody TransactionDto transactionDto
                                                          ) {
-        Transaction transaction = this.transactionEmployeeService.createTransaction(transactionDto, employeeId, transactionOfficeId);
-        return new ResponseEntity<>(transaction, HttpStatus.CREATED);
+        TransactionDto dto = this.transactionEmployeeService.createTransaction(transactionDto);
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

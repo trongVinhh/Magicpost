@@ -1,6 +1,7 @@
 package com.magicpost.circus.entity.info;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.magicpost.circus.entity.company.branch.StorageOffice;
 
 import jakarta.persistence.*;
@@ -22,7 +23,7 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "current_storage", nullable = false)
-    @JsonBackReference
+    @JsonIgnore
     private StorageOffice currentStorage;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -30,7 +31,6 @@ public class Order {
     private Transaction transactionId;
 
     @OneToOne(mappedBy = "orderId", cascade = CascadeType.ALL)
-    @JsonBackReference
     private Tracking tracking;
 
 }
