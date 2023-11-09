@@ -43,7 +43,6 @@ public class TransactionOffice {
     private List<Employee> employees;
 
     @OneToMany(mappedBy = "transactionId", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<Transaction> transactions;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

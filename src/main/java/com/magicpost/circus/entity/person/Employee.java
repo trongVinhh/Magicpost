@@ -46,7 +46,6 @@ public class Employee {
     public List<Role> role;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    @JsonBackReference
     private List<Transaction> transactionId;
 
     @ManyToOne(fetch = FetchType.LAZY)

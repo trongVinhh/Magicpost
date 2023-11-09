@@ -40,12 +40,10 @@ public class Transaction {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
-    @JsonIgnore
     private Employee employee;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    @JsonIgnore
     private Customer customer;
 
     @OneToOne(mappedBy = "transactionId", cascade = CascadeType.ALL)
@@ -53,6 +51,5 @@ public class Transaction {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transaction_office_id", referencedColumnName = "id")
-    @JsonIgnore
     private TransactionOffice transactionId;
 }
