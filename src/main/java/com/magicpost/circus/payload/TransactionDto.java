@@ -1,5 +1,6 @@
 package com.magicpost.circus.payload;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
 import com.magicpost.circus.entity.info.Order;
 import com.magicpost.circus.entity.person.Customer;
@@ -23,12 +24,11 @@ public class TransactionDto {
     private String receiveAddress;
     private String receiverName;
     private String phoneNumber;
-    private Date date;
     private Long employeeId;
     private Long transactionOfficeId;
-    private Employee employee;
-    private Customer customer;
-    private Order order;
-    private TransactionOffice transactionId;
+    private CustomerDto customerDto;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date date;
 
 }

@@ -22,7 +22,7 @@ public class Order {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "current_storage", nullable = false)
+    @JoinColumn(name = "current_storage")
     @JsonIgnore
     private StorageOffice currentStorage;
 

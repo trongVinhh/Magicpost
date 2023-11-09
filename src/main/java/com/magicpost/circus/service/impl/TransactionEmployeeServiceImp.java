@@ -9,6 +9,7 @@ import com.magicpost.circus.entity.person.Customer;
 import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.exception.NotAuthorizeException;
 import com.magicpost.circus.exception.ResourceNotFoundException;
+import com.magicpost.circus.payload.CustomerDto;
 import com.magicpost.circus.payload.TransactionDto;
 import com.magicpost.circus.repository.*;
 import com.magicpost.circus.service.CustomerService;
@@ -57,26 +58,27 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         Long transactionOfficeId = transactionDto.getTransactionOfficeId();
         Employee employee = this.employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
         TransactionOffice transactionOffice = this.transactionOfficeRepository.findById(transactionOfficeId).orElseThrow(() -> new ResourceNotFoundException("TransactionOffice", "id", transactionOfficeId));
-        Customer customer = transactionDto.getCustomer();
-
+        CustomerDto customerDto = transactionDto.getCustomerDto();
+        Customer customer = this.mapToCustomerEntity(customerDto);
         // set transaction
         transaction.setCustomer(customer);
         transaction.setEmployee(employee);
         transaction.setTransactionId(transactionOffice);
 
         // order
-
-//        transaction.setOrder(order);
+        Order order = new Order();
+        order.setTransactionId(transaction);
 
         // tracking
-//        Tracking tracking = new Tracking();
-//        tracking.setStatus("Đang giao hàng");
+        Tracking tracking = new Tracking();
+        tracking.setStatus("Đang giao hàng");
+        tracking.setOrderId(order);
 
 
         // save to database
-//        this.orderHistoryRepository.save(tracking);
+        this.orderRepository.save(order);
+        this.orderHistoryRepository.save(tracking);
         Transaction temp = this.transactionRepository.save(transaction);
-
         return this.mapToDto(temp);
     }
 
@@ -97,7 +99,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         transaction.setReceiveAddress(transactionDto.getReceiveAddress());
         transaction.setReceiver_name(transactionDto.getReceiverName());
         transaction.setTotalPrice(transactionDto.getTotalPrice());
-        transaction.setCustomer(transactionDto.getCustomer());
+//        transaction.setCustomer(transactionDto.getCustomer());
 
         // save to database
         this.transactionRepository.save(transaction);
@@ -119,6 +121,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         transaction.setReceiveAddress(transactionDto.getReceiveAddress());
         transaction.setReceiver_name(transactionDto.getReceiverName());
         transaction.setTotalPrice(transactionDto.getTotalPrice());
+        transaction.setDate(transactionDto.getDate());
 
         return transaction;
     }
@@ -132,8 +135,33 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         transactionDto.setReceiveAddress(transaction.getReceiveAddress());
         transactionDto.setMass(transaction.getMass());
         transactionDto.setPhoneNumber(transaction.getPhoneNumber());
-        transactionDto.setCustomer(transaction.getCustomer());
+        transactionDto.setEmployeeId(transaction.getEmployee().getId());
+        transactionDto.setTransactionOfficeId(transaction.getTransactionId().getId());
+        transactionDto.setCustomerDto(this.mapToCustomerDto(transaction.getCustomer()));
+        transactionDto.setDate(transaction.getDate());
 
         return transactionDto;
+    }
+
+    private Customer mapToCustomerEntity(CustomerDto customerDto) {
+        Customer customer = new Customer();
+        customer.setFirstName(customerDto.getFirstName());
+        customer.setLastName(customerDto.getLastName());
+        customer.setPhone(customerDto.getPhone());
+        customer.setAddress(customerDto.getAddress());
+        customer.setEmail(customerDto.getEmail());
+
+        return customer;
+    }
+    private CustomerDto mapToCustomerDto(Customer customer) {
+        CustomerDto customerDto = new CustomerDto();
+        customerDto.setId(customer.getId());
+        customerDto.setFirstName(customer.getFirstName());
+        customerDto.setLastName(customer.getLastName());
+        customerDto.setPhone(customer.getPhone());
+        customerDto.setAddress(customer.getAddress());
+        customerDto.setEmail(customer.getEmail());
+
+        return customerDto;
     }
 }

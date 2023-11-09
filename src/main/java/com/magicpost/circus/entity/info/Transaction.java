@@ -1,6 +1,7 @@
 package com.magicpost.circus.entity.info;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
@@ -40,6 +41,7 @@ public class Transaction {
     private String phoneNumber;
 //    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
     @ManyToOne(cascade = CascadeType.ALL)
