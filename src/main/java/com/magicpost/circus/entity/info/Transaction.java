@@ -49,7 +49,6 @@ public class Transaction {
     private Customer customer;
 
     @OneToOne(mappedBy = "transactionId", cascade = CascadeType.ALL)
-    @JsonIgnore
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)

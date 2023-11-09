@@ -1,5 +1,7 @@
 package com.magicpost.circus.entity.company.branch;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.magicpost.circus.entity.company.HeadOffice;
 import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.entity.person.Employee;
@@ -37,8 +39,11 @@ public class TransactionOffice {
     private ManagerTransaction managerId;
 
     @OneToMany(mappedBy = "transactionOffice", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Employee> employees;
+
     @OneToMany(mappedBy = "transactionId", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Transaction> transactions;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

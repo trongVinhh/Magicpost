@@ -1,5 +1,6 @@
 package com.magicpost.circus.entity.person;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
@@ -22,6 +23,7 @@ import java.util.List;
 @Entity
 @Table(name = "employee")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING)
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -44,19 +46,22 @@ public class Employee {
     public List<Role> role;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonBackReference
     private List<Transaction> transactionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storage_id", referencedColumnName = "id", nullable = true)
+    @JsonBackReference
     private StorageOffice storageOffice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transaction_office_id", referencedColumnName = "id", nullable = true)
+    @JsonBackReference
     private TransactionOffice transactionOffice;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
+    @JsonBackReference
     private Account account;
 
 }

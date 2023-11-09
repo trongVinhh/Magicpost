@@ -1,5 +1,6 @@
 package com.magicpost.circus.entity.info;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.magicpost.circus.entity.person.Employee;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,5 +24,6 @@ public class Account {
     private String password;
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Employee employee;
 }

@@ -1,5 +1,8 @@
 package com.magicpost.circus.entity.company.branch;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.magicpost.circus.entity.company.HeadOffice;
 import com.magicpost.circus.entity.info.Order;
 import com.magicpost.circus.entity.person.Employee;
@@ -35,8 +38,11 @@ public class StorageOffice {
     private ManagerStorage managerId;
 
     @OneToMany(mappedBy = "storageOffice", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Employee> employees;
+
     @OneToMany(mappedBy = "currentStorage", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Order> orders;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

@@ -23,4 +23,5 @@ public class EmployeeDto {
     private String email;
     private String address;
     private List<Role> role;
+    private List<StorageOffice> storageOffice;
 }

@@ -1,5 +1,7 @@
 package com.magicpost.circus.entity.company;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
 
@@ -24,8 +26,10 @@ public class HeadOffice {
     @Column(name = "director_name")
     private String directorName;
     @OneToMany(mappedBy = "headOffice")
+    @JsonManagedReference
     private List<TransactionOffice> transactionOffices;
     @OneToMany(mappedBy = "headOffice")
+    @JsonManagedReference
     private List<StorageOffice> storageOffices;
 
 }

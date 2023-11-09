@@ -18,7 +18,8 @@ public class TransactionController {
         this.transactionEmployeeService = transactionEmployeeService;
     }
 
-    @PostMapping("/employee/{employeeId}/transaction-office/{transactionOfficeId}/storage-office/{storageOfficeId}")
+    @PostMapping(value = "/employee/{employeeId}/transaction-office/{transactionOfficeId}/storage-office/{storageOfficeId}", consumes = "application/json;charset=UTF-8")
+
     public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDto transactionDto,
                                                          @PathVariable Long employeeId,
                                                          @PathVariable Long transactionOfficeId,
