@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/transaction")
 public class TransactionController {
@@ -25,18 +27,21 @@ public class TransactionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transaction> getTransaction(@PathVariable Long id) {
-        Transaction transaction = this.transactionEmployeeService.getTransaction(id);
+    public ResponseEntity<TransactionDto> getTransaction(@PathVariable Long id) {
+        TransactionDto transaction = this.transactionEmployeeService.getTransaction(id);
         return new ResponseEntity<>(transaction, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/employee/{employeeId}/transaction-office/{transactionOfficeId}/storage-office/{storageOfficeId}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long id,
-                                                         @RequestBody TransactionDto transactionDto,
-                                                         @PathVariable Long employeeId,
-                                                         @PathVariable Long transactionOfficeId,
-                                                         @PathVariable Long storageOfficeId) {
-        Transaction transaction = this.transactionEmployeeService.updateTransaction(id, transactionDto, employeeId, transactionOfficeId, storageOfficeId);
-        return new ResponseEntity<>(transaction, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<TransactionDto> updateTransaction(@PathVariable Long id,
+                                                         @RequestBody TransactionDto transactionDto) {
+        TransactionDto dto = this.transactionEmployeeService.updateTransaction(id, transactionDto);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/transactions")
+    public ResponseEntity<List<TransactionDto>> getAllTransactions() {
+        List<TransactionDto> transactions = this.transactionEmployeeService.getAllTransactions();
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 }

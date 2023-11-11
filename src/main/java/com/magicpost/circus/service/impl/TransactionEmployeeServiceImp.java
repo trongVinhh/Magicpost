@@ -18,6 +18,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TransactionEmployeeServiceImp implements TransactionEmployeeService {
     @Autowired
@@ -84,8 +87,10 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
 
     @Override
     @Transactional
-    public Transaction updateTransaction(Long transactionId ,TransactionDto transactionDto, Long employeeId, Long transactionOfficeId, Long storageOfficeId) {
+    public TransactionDto updateTransaction(Long transactionId ,TransactionDto transactionDto) {
         Transaction transaction = this.transactionRepository.findById(transactionId).orElseThrow(() -> new ResourceNotFoundException("Transaction", "id", transactionId));
+        Long employeeId = transactionDto.getEmployeeId();
+        Long transactionOfficeId = transactionDto.getTransactionOfficeId();
         Employee employee = this.employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
         TransactionOffice transactionOffice = this.transactionOfficeRepository.findById(transactionOfficeId).orElseThrow(() -> new ResourceNotFoundException("TransactionOffice", "id", transactionOfficeId));
 
@@ -99,18 +104,35 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         transaction.setReceiveAddress(transactionDto.getReceiveAddress());
         transaction.setReceiver_name(transactionDto.getReceiverName());
         transaction.setTotalPrice(transactionDto.getTotalPrice());
-//        transaction.setCustomer(transactionDto.getCustomer());
+        Customer customer = this.mapToCustomerEntity(transactionDto.getCustomerDto());
+        transaction.setCustomer(customer);
+        transaction.setDate(transactionDto.getDate());
+        transaction.setTransactionId(transactionOffice);
 
         // save to database
-        this.transactionRepository.save(transaction);
-        return null;
+        Transaction temp = this.transactionRepository.save(transaction);
+        return this.mapToDto(temp);
     }
 
     @Override
     @Transactional
-    public Transaction getTransaction(Long id) {
+    public TransactionDto getTransaction(Long id) {
         Transaction transaction = this.transactionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Transaction", "id", id));
-        return transaction;
+
+        return this.mapToDto(transaction);
+    }
+
+    @Override
+    public List<TransactionDto> getAllTransactions() {
+        List<Transaction> transactions = this.transactionRepository.findAll();
+        List<TransactionDto> transactionDtos = new ArrayList<>();
+        transactions.forEach(transaction1 -> {
+            TransactionDto transactionDto = this.mapToDto(transaction1);
+
+            // add to list
+            transactionDtos.add(transactionDto);
+        });
+        return transactionDtos;
     }
 
     private Transaction mapToEntity(TransactionDto transactionDto) {

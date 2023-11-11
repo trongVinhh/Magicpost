@@ -5,6 +5,7 @@ import com.magicpost.circus.entity.company.branch.TransactionOffice;
 import com.magicpost.circus.entity.info.Order;
 import com.magicpost.circus.payload.OrderDto;
 import com.magicpost.circus.payload.StorageOfficeDto;
+import com.magicpost.circus.payload.TransactionDto;
 import com.magicpost.circus.payload.TransactionOfficeDto;
 import com.magicpost.circus.service.DirectorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,26 @@ public class DirectorController {
     }
 
     @GetMapping("/storage/{storageOfficeId}/orders")
-    public ResponseEntity<List<OrderDto>> getAllOrders(@PathVariable Long storageOfficeId) {
+    public ResponseEntity<List<OrderDto>> getAllOrdersOfStorage(@PathVariable Long storageOfficeId) {
         List<OrderDto> orders = this.directorService.getAllOrdersInStorage(storageOfficeId);
         return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+    @GetMapping("/orders")
+    public ResponseEntity<List<OrderDto>> getAllOrders() {
+        List<OrderDto> orders = this.directorService.getAllOrders();
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+    @GetMapping("/transactions")
+    public ResponseEntity<List<TransactionDto>> getAllTransactions() {
+        List<TransactionDto> transactions = this.directorService.getAllTransactions();
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+
+    @GetMapping("/transactionOffice/{transactionOfficeId}/transactions")
+    public ResponseEntity<List<TransactionDto>> getAllTransactionsOfTransactionOffice(@PathVariable Long transactionOfficeId) {
+        List<TransactionDto> transactions = this.directorService.getAllTransactionsInTransactionOffice(transactionOfficeId);
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 }
