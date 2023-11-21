@@ -3,6 +3,7 @@ package com.magicpost.circus.service.impl;
 import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.entity.person.child.*;
 import com.magicpost.circus.entity.role.Role;
+import com.magicpost.circus.exception.MagicPostException;
 import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.EmployeeDto;
 import com.magicpost.circus.repository.*;
@@ -11,12 +12,13 @@ import com.magicpost.circus.service.EmployeeService;
 import com.magicpost.circus.ultis.EmployeeRole;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import org.hibernate.annotations.Array;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +44,8 @@ public class EmployeeServiceImp implements EmployeeService {
     private EmployeeTransactionRepository employeeTransactionRepository;
     @Autowired
     private EmployeeStorageRepository employeeStorageRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private EntityManager entityManager;
@@ -55,7 +59,8 @@ public class EmployeeServiceImp implements EmployeeService {
                               ManagerStorageRepository managerStorageRepository,
                               ManagerTransactionRepository managerTransactionRepository,
                               EmployeeTransactionRepository employeeTransactionRepository,
-                              EmployeeStorageRepository employeeStorageRepository) {
+                              EmployeeStorageRepository employeeStorageRepository,
+                              PasswordEncoder passwordEncoder) {
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
         this.transactionRepository = transactionRepository;
@@ -66,11 +71,21 @@ public class EmployeeServiceImp implements EmployeeService {
         this.managerTransactionRepository = managerTransactionRepository;
         this.employeeTransactionRepository = employeeTransactionRepository;
         this.employeeStorageRepository = employeeStorageRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     @Transactional
     public EmployeeDto createEmployee(EmployeeDto employeeDto, Long roleId) {
+        // check exist employee
+        if (employeeRepository.existsByUsername(employeeDto.getUsername())) {
+            throw new MagicPostException(HttpStatus.BAD_REQUEST,"Username is already taken!");
+        }
+        // check exist email
+        if (employeeRepository.existsByEmail(employeeDto.getEmail())) {
+            throw new MagicPostException(HttpStatus.BAD_REQUEST,"Email is already taken!");
+        }
+
         Employee employee = this.mapToEntity(employeeDto);
         Role role = this.roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("Role", "id", roleId));
         //Check role
@@ -78,7 +93,7 @@ public class EmployeeServiceImp implements EmployeeService {
         this.checkRoleAndSave(roleName, employee);
 
         // add role to employee
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         roles.add(role);
         employee.setRole(roles);
 
@@ -111,7 +126,7 @@ public class EmployeeServiceImp implements EmployeeService {
         Employee employeeUpdated = new Employee();
         Role role = this.roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("Role", "id", roleId));
 
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         roles.add(role);
 
         if (employee.isPresent()) {
@@ -143,7 +158,8 @@ public class EmployeeServiceImp implements EmployeeService {
         employee.setEmail(employeeDto.getEmail());
         employee.setPhone(employeeDto.getPhone());
         employee.setAddress(employeeDto.getAddress());
-
+        employee.setUsername(employeeDto.getUsername());
+        employee.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
         return employee;
     }
 
@@ -154,6 +170,8 @@ public class EmployeeServiceImp implements EmployeeService {
         employeeDto.setLastName(employee.getLastName());
         employeeDto.setEmail(employee.getEmail());
         employeeDto.setPhone(employee.getPhone());
+        employeeDto.setUsername(employee.getUsername());
+        employeeDto.setPassword(employee.getPassword());
         employeeDto.setAddress(employee.getAddress());
         employeeDto.setRole(employee.getRole());
         return employeeDto;
@@ -162,35 +180,37 @@ public class EmployeeServiceImp implements EmployeeService {
     private void checkRoleAndSave(String roleName, Employee employee) {
 
         switch (EmployeeRole.valueOf(roleName)) {
-            case SHIPPER:
+            case ROLE_SHIPPER:
                 Shipper shipper = this.mapToShipperEntity(employee);
 
                 // save to db
                 this.shipperRepository.save(shipper);
                 break;
-            case EMPLOYEE_TRANSACTION:
+            case ROLE_EMPLOYEE_TRANSACTION:
                 EmployeeTransaction employeeTransaction = this.mapToEmployeeTransactionEntity(employee);
 
                 // save to db
                 this.employeeTransactionRepository.save(employeeTransaction);
                 break;
-            case EMPLOYEE_STORAGE:
+            case ROLE_EMPLOYEE_STORAGE:
                 EmployeeStorage employeeStorage = this.mapToEmployeeStorageEntity(employee);
 
                 //save to db
                 this.employeeStorageRepository.save(employeeStorage);
                 break;
-            case MANAGER_STORAGE:
+            case ROLE_MANAGER_STORAGE:
                 ManagerStorage managerStorage = this.mapToManagerStorageEntity(employee);
 
                 //save to db
                 this.managerStorageRepository.save(managerStorage);
                 break;
-            case MANAGER_TRANSACTION:
+            case ROLE_MANAGER_TRANSACTION:
                 ManagerTransaction managerTransaction = this.mapToManagerTransactionEntity(employee);
 
                 //save to db
                 this.managerTransactionRepository.save(managerTransaction);
+                break;
+            case ROLE_ADMIN:
                 break;
         }
     }

@@ -2,19 +2,15 @@ package com.magicpost.circus.service.impl;
 
 import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
-import com.magicpost.circus.entity.info.Account;
 import com.magicpost.circus.entity.info.Order;
 import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.entity.person.Customer;
-import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.*;
 import com.magicpost.circus.repository.*;
-import com.magicpost.circus.service.AccountService;
 import com.magicpost.circus.service.DirectorService;
 import com.magicpost.circus.service.EmployeeService;
 import com.magicpost.circus.service.TransactionEmployeeService;
-import org.antlr.v4.runtime.tree.pattern.ParseTreePattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +25,6 @@ public class DirectorServiceImp implements DirectorService {
     @Autowired
     private TransactionOfficeRepository transactionOfficeRepository;
 
-    @Autowired
-    private AccountService accountService;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -47,7 +41,7 @@ public class DirectorServiceImp implements DirectorService {
 
     public DirectorServiceImp(StorageOfficeRepository storageOfficeRepository,
                        TransactionOfficeRepository transactionOfficeRepository,
-                              AccountService accountService,
+
                               EmployeeService employeeService,
                               OrderRepository orderRepository,
                               EmployeeRepository employeeRepository,
@@ -56,7 +50,6 @@ public class DirectorServiceImp implements DirectorService {
                              ) {
         this.storageOfficeRepository = storageOfficeRepository;
         this.transactionOfficeRepository = transactionOfficeRepository;
-        this.accountService = accountService;
         this.employeeService = employeeService;
         this.orderRepository = orderRepository;
         this.employeeRepository = employeeRepository;
@@ -167,12 +160,6 @@ public class DirectorServiceImp implements DirectorService {
         return transactionDtos;
     }
 
-    private Account mapToAccountEntity(AccountDto accountDto) {
-        Account account = new Account();
-        account.setUserName(accountDto.getUsername());
-        account.setPassword(accountDto.getPassword());
-        return account;
-    }
 
     private CustomerDto mapToCustomerDto(Customer customer) {
         CustomerDto customerDto = new CustomerDto();

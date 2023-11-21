@@ -6,6 +6,7 @@ import com.magicpost.circus.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public class RoleController {
         RoleDto role = roleService.getRole(id);
         return new ResponseEntity<>(role, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto roleDto) {
         RoleDto role = roleService.createRole(roleDto);
@@ -28,12 +31,14 @@ public class RoleController {
         return new ResponseEntity<>(role, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<RoleDto> updateRole(@PathVariable Long id, @RequestBody RoleDto roleDto) {
         RoleDto role = this.roleService.updateRole(id, roleDto);
         return new ResponseEntity<>(role, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRole(@PathVariable Long id) {
         this.roleService.deleteRole(id);

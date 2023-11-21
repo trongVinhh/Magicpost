@@ -1,10 +1,14 @@
 package com.magicpost.circus.service.impl;
 
+import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.entity.person.Customer;
 import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.CustomerDto;
+import com.magicpost.circus.payload.TrackingDto;
 import com.magicpost.circus.repository.CustomerRepository;
+import com.magicpost.circus.repository.TransactionRepository;
 import com.magicpost.circus.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,9 +19,13 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerServiceImp implements CustomerService {
     private CustomerRepository customerRepository;
+    @Autowired
+    private TransactionRepository transactionRepository;
 
-    public CustomerServiceImp(CustomerRepository customerRepository) {
+    public CustomerServiceImp(CustomerRepository customerRepository,
+                              TransactionRepository transactionRepository) {
         this.customerRepository = customerRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     @Override
@@ -68,6 +76,22 @@ public class CustomerServiceImp implements CustomerService {
         }
 
         return this.mapToDto(customerUpdated);
+    }
+
+    @Override
+    public TrackingDto trackingOrder(String orderCode) {
+        Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
+        TrackingDto trackingDto = new TrackingDto();
+        trackingDto.setMass(transaction.getMass());
+        trackingDto.setOrderCode(transaction.getOrderCode());
+        trackingDto.setPhoneNumber(transaction.getPhoneNumber());
+        trackingDto.setReceiveAddress(transaction.getReceiveAddress());
+        trackingDto.setReceiverName(transaction.getReceiver_name());
+        trackingDto.setTotalPrice(transaction.getTotalPrice());
+        trackingDto.setDate(transaction.getDate());
+        trackingDto.setNameCurrentStorage(transaction.getTransactionId().getName());
+
+        return trackingDto;
     }
 
     private Customer mapToEntity(CustomerDto customerDto) {

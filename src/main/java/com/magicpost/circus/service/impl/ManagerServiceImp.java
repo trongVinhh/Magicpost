@@ -7,7 +7,6 @@ import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.EmployeeDto;
 import com.magicpost.circus.payload.StorageOfficeDto;
 import com.magicpost.circus.payload.TransactionOfficeDto;
-import com.magicpost.circus.repository.AccountRepository;
 import com.magicpost.circus.repository.EmployeeRepository;
 import com.magicpost.circus.repository.StorageOfficeRepository;
 import com.magicpost.circus.repository.TransactionOfficeRepository;
@@ -28,17 +27,13 @@ public class ManagerServiceImp implements ManagerService {
     @Autowired
     private TransactionOfficeRepository transactionOfficeRepository;
 
-    @Autowired
-    private AccountRepository accountRepository;
 
     public ManagerServiceImp(EmployeeRepository employeeRepository,
                              StorageOfficeRepository storageOfficeRepository,
-                             TransactionOfficeRepository transactionOfficeRepository,
-                             AccountRepository accountRepository) {
+                             TransactionOfficeRepository transactionOfficeRepository) {
         this.employeeRepository = employeeRepository;
         this.storageOfficeRepository = storageOfficeRepository;
         this.transactionOfficeRepository = transactionOfficeRepository;
-        this.accountRepository = accountRepository;
     }
 
     @Override

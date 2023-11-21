@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
-import com.magicpost.circus.entity.info.Account;
 import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.entity.role.Role;
 
@@ -15,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -38,12 +38,16 @@ public class Employee {
     private String email;
     @Column(name = "address")
     private String address;
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "employee_role",
                 joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    public List<Role> role;
+    public Set<Role> role;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -59,9 +63,5 @@ public class Employee {
     @JsonIgnore
     @JsonBackReference
     private TransactionOffice transactionOffice;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private Account account;
 
 }
