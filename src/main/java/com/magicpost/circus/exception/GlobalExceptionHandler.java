@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MagicPostException.class)
-    public ResponseEntity<ErrorDetails> handleMagicPostException(ResourceNotFoundException exception,
+    public ResponseEntity<ErrorDetails> handleMagicPostException(MagicPostException exception,
                                                                WebRequest webRequest) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(),
                 exception.getMessage(),
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
 
     // handle global exception
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDetails> handleMagicPostException(Exception exception,
+    public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception,
                                                                WebRequest webRequest) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(),
                 exception.getMessage(),

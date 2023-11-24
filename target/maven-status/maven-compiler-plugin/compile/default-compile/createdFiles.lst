@@ -31,6 +31,7 @@ com\magicpost\circus\payload\TransactionOfficeDto.class
 com\magicpost\circus\service\impl\TransactionEmployeeServiceImp.class
 com\magicpost\circus\repository\TransactionOfficeRepository.class
 com\magicpost\circus\service\ManagerService.class
+com\magicpost\circus\repository\TrackingRepository.class
 com\magicpost\circus\controller\Auth\AuthController.class
 com\magicpost\circus\entity\info\Tracking.class
 com\magicpost\circus\entity\person\child\Shipper.class
@@ -62,7 +63,6 @@ com\magicpost\circus\service\RoleService.class
 com\magicpost\circus\repository\EmployeeRepository.class
 com\magicpost\circus\controller\RoleController.class
 com\magicpost\circus\payload\ManagerDto.class
-com\magicpost\circus\repository\OrderHistoryRepository.class
 com\magicpost\circus\security\JwtAuthenticationFilter.class
 com\magicpost\circus\service\AuthService.class
 com\magicpost\circus\controller\customer\CustomerController.class
