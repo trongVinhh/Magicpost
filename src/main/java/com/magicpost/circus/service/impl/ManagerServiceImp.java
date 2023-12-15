@@ -62,11 +62,6 @@ public class ManagerServiceImp implements ManagerService {
         return this.mapToTransactionOfficeDto(transactionOffice);
     }
 
-    @Override
-    public EmployeeDto setAccountForEmployee(Long employeeId, Long accountId) {
-        return null;
-    }
-
     private Employee mapToEntity(EmployeeDto employeeDto) {
         Employee employee = new Employee();
         employee.setFirstName(employeeDto.getFirstName());

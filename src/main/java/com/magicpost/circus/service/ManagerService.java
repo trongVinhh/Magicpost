@@ -8,6 +8,5 @@ import com.magicpost.circus.payload.TransactionOfficeDto;
 public interface ManagerService {
     StorageOfficeDto setStorageOfficeForEmployee(Long employeeId, Long storageOfficeId);
     TransactionOfficeDto setTransactionOfficeForEmployee(Long employeeId, Long transactionOfficeId);
-    EmployeeDto setAccountForEmployee(Long employeeId, Long accountId);
 
 }

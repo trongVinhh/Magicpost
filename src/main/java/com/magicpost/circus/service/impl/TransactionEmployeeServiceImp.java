@@ -1,13 +1,11 @@
 package com.magicpost.circus.service.impl;
 
-import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
 import com.magicpost.circus.entity.info.Order;
 import com.magicpost.circus.entity.info.Tracking;
 import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.entity.person.Customer;
 import com.magicpost.circus.entity.person.Employee;
-import com.magicpost.circus.exception.NotAuthorizeException;
 import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.CustomerDto;
 import com.magicpost.circus.payload.TransactionDto;
@@ -37,19 +35,19 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
     private StorageOfficeRepository storageOfficeRepository;
 
     @Autowired
-    private OrderHistoryRepository orderHistoryRepository;
+    private TrackingRepository trackingRepository;
 
     public TransactionEmployeeServiceImp(EmployeeRepository employeeRepository,
                                          TransactionOfficeRepository transactionOfficeRepository,
                                          TransactionRepository transactionRepository,
                                          OrderRepository orderRepository, StorageOfficeRepository storageOfficeRepository,
-                                         OrderHistoryRepository orderHistoryRepository) {
+                                         TrackingRepository trackingRepository) {
         this.employeeRepository = employeeRepository;
         this.transactionOfficeRepository = transactionOfficeRepository;
         this.transactionRepository = transactionRepository;
         this.orderRepository = orderRepository;
         this.storageOfficeRepository = storageOfficeRepository;
-        this.orderHistoryRepository = orderHistoryRepository;
+        this.trackingRepository = trackingRepository;
     }
 
     @Override
@@ -80,7 +78,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
 
         // save to database
         this.orderRepository.save(order);
-        this.orderHistoryRepository.save(tracking);
+        this.trackingRepository.save(tracking);
         Transaction temp = this.transactionRepository.save(transaction);
         return this.mapToDto(temp);
     }

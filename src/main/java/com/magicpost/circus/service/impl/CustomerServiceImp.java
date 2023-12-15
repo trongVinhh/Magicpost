@@ -1,11 +1,14 @@
 package com.magicpost.circus.service.impl;
 
+import com.magicpost.circus.entity.info.Order;
+import com.magicpost.circus.entity.info.Tracking;
 import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.entity.person.Customer;
 import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.CustomerDto;
 import com.magicpost.circus.payload.TrackingDto;
 import com.magicpost.circus.repository.CustomerRepository;
+import com.magicpost.circus.repository.OrderRepository;
 import com.magicpost.circus.repository.TransactionRepository;
 import com.magicpost.circus.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,8 @@ public class CustomerServiceImp implements CustomerService {
     private CustomerRepository customerRepository;
     @Autowired
     private TransactionRepository transactionRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     public CustomerServiceImp(CustomerRepository customerRepository,
                               TransactionRepository transactionRepository) {
@@ -81,7 +86,13 @@ public class CustomerServiceImp implements CustomerService {
     @Override
     public TrackingDto trackingOrder(String orderCode) {
         Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
+        if (transaction == null) {
+            throw new ResourceNotFoundException("Transaction", orderCode);
+        }
         TrackingDto trackingDto = new TrackingDto();
+        Long orderId = transaction.getOrder().getId();
+        Order order = this.orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order", "id", orderId));
+        Tracking tracking = order.getTracking();
         trackingDto.setMass(transaction.getMass());
         trackingDto.setOrderCode(transaction.getOrderCode());
         trackingDto.setPhoneNumber(transaction.getPhoneNumber());
@@ -90,7 +101,7 @@ public class CustomerServiceImp implements CustomerService {
         trackingDto.setTotalPrice(transaction.getTotalPrice());
         trackingDto.setDate(transaction.getDate());
         trackingDto.setNameCurrentStorage(transaction.getTransactionId().getName());
-
+        trackingDto.setStatus(tracking.getStatus());
         return trackingDto;
     }
 

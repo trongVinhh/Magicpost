@@ -50,4 +50,5 @@ public class RoleController {
         List<Role> roles = this.roleService.getRoles();
         return new ResponseEntity<>(roles, HttpStatus.OK);
     }
+
 }

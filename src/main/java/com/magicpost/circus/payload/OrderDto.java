@@ -12,6 +12,7 @@ import lombok.Setter;
 @Getter @Setter
 public class OrderDto {
     private Long id;
-    private Long currentStorageId;
-    private Long transactionId;
+    private String currentStorageName;
+    private String currentStorageAddress;
+    private TransactionDto transaction;
 }

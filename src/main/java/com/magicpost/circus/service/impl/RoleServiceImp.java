@@ -62,6 +62,7 @@ public class RoleServiceImp implements RoleService {
         return this.roleRepository.findAll();
     }
 
+
     private Role mapToEntity(RoleDto roleDto) {
         Role role = new Role();
         role.setName(roleDto.getName());
