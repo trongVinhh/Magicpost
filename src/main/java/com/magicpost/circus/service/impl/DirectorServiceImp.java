@@ -111,8 +111,13 @@ public class DirectorServiceImp implements DirectorService {
         List<Order> orders = this.orderRepository.findAll();
         List<OrderDto> orderDtos = new ArrayList<>();
         orders.forEach(order -> {
-            OrderDto orderDto = this.mapToOrderDto(order);
-
+            OrderDto orderDto = new OrderDto();
+            TransactionDto transactionDto = this.mapToTransactionDto(order.getTransactionId());
+            StorageOfficeDto storageOfficeDto = this.mapToStorageOfficeDto(order.getCurrentStorage());
+            orderDto.setId(order.getId());
+            orderDto.setCurrentStorageName(storageOfficeDto.getName());
+            orderDto.setCurrentStorageAddress(storageOfficeDto.getAddress());
+            orderDto.setTransaction(transactionDto);
             orderDtos.add(orderDto);
         });
         return orderDtos;
@@ -138,8 +143,13 @@ public class DirectorServiceImp implements DirectorService {
         List<Order> orders = storageOffice.getOrders();
         List<OrderDto> orderDtos = new ArrayList<>();
         orders.forEach(order -> {
-            OrderDto orderDto = this.mapToOrderDto(order);
-
+            OrderDto orderDto = new OrderDto();
+            TransactionDto transactionDto = this.mapToTransactionDto(order.getTransactionId());
+            StorageOfficeDto storageOfficeDto = this.mapToStorageOfficeDto(order.getCurrentStorage());
+            orderDto.setId(order.getId());
+            orderDto.setCurrentStorageName(storageOfficeDto.getName());
+            orderDto.setCurrentStorageAddress(storageOfficeDto.getAddress());
+            orderDto.setTransaction(transactionDto);
             orderDtos.add(orderDto);
         });
         return orderDtos;
@@ -190,17 +200,28 @@ public class DirectorServiceImp implements DirectorService {
         return transactionDto;
     }
 
-    private OrderDto mapToOrderDto(Order order) {
-        OrderDto orderDto = new OrderDto();
-        orderDto.setId(order.getId());
-        if (order.getCurrentStorage() == null) {
-            orderDto.setCurrentStorageId(null);
-        } else {
-            orderDto.setCurrentStorageId(order.getCurrentStorage().getId());
-        }
-        orderDto.setTransactionId(order.getTransactionId().getId());
+//    private OrderDto mapToOrderDto(Order order) {
+//        OrderDto orderDto = new OrderDto();
+//        orderDto.setId(order.getId());
+//        if (order.getCurrentStorage() == null) {
+//            orderDto.setCurrentStorageId(null);
+//        } else {
+//            orderDto.setCurrentStorageId(order.getCurrentStorage().getId());
+//        }
+//        orderDto.setTransactionId(order.getTransactionId().getId());
+//
+//        return orderDto;
+//    }
 
-        return orderDto;
+    private StorageOfficeDto mapToStorageOfficeDto(StorageOffice storageOffice) {
+        StorageOfficeDto storageOfficeDto = new StorageOfficeDto();
+        storageOfficeDto.setId(storageOffice.getId());
+        storageOfficeDto.setName(storageOffice.getName());
+        storageOfficeDto.setAddress(storageOffice.getAddress());
+        storageOfficeDto.setEmployees(storageOffice.getEmployees());
+
+        return storageOfficeDto;
     }
+
 
 }

@@ -22,4 +22,5 @@ public class TrackingDto {
     private String nameCurrentStorage;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
+    private String status;
 }

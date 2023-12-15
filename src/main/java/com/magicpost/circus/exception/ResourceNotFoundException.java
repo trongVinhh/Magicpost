@@ -16,6 +16,16 @@ public class ResourceNotFoundException extends RuntimeException{
         this.fieldValue = fieldValue;
     }
 
+    public ResourceNotFoundException(String resourceName) {
+        super(String.format("%s or email not found with: %s", resourceName, resourceName));
+        this.resourceName = resourceName;
+    }
+
+    public ResourceNotFoundException(String resourceName, String fieldName) {
+        super(String.format("%s or email not found with: %s", resourceName, fieldName));
+        this.resourceName = resourceName;
+    }
+
     public String getResourceName() {
         return resourceName;
     }

@@ -1,7 +1,5 @@
 package com.magicpost.circus.entity.company.branch;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.magicpost.circus.entity.company.HeadOffice;
 import com.magicpost.circus.entity.info.Order;
@@ -9,7 +7,6 @@ import com.magicpost.circus.entity.person.Employee;
 
 import java.util.List;
 
-import com.magicpost.circus.entity.person.child.ManagerStorage;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,7 +32,7 @@ public class StorageOffice {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "manager_id", referencedColumnName = "id")
-    private ManagerStorage managerId;
+    private Employee managerId;
 
     @OneToMany(mappedBy = "storageOffice", cascade = CascadeType.ALL)
     @JsonManagedReference

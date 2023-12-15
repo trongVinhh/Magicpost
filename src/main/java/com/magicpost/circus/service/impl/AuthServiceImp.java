@@ -3,6 +3,7 @@ package com.magicpost.circus.service.impl;
 import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.exception.GlobalExceptionHandler;
 import com.magicpost.circus.exception.MagicPostException;
+import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.LoginDto;
 import com.magicpost.circus.repository.EmployeeRepository;
 import com.magicpost.circus.security.JwtTokenProvider;
@@ -52,10 +53,18 @@ public class AuthServiceImp implements AuthService {
             throw new MagicPostException(HttpStatus.BAD_REQUEST, "Please fill in username or email and password");
         }
 
-        if (!this.employeeRepository.existsByUsername(loginDto.getUsernameOrEmail())) {
-            throw new MagicPostException(HttpStatus.NOT_FOUND, "Username or email not found");
+        // check username have space character
+        if (loginDto.getUsernameOrEmail().contains(" ")) {
+            throw new MagicPostException(HttpStatus.BAD_REQUEST, "Username or email must not contain space character");
         }
 
+        if (loginDto.getUsernameOrEmail().length() < 3 ) {
+            throw new MagicPostException(HttpStatus.BAD_REQUEST, "Username or email and password must be at least 3 characters");
+        }
+
+        if (!this.employeeRepository.existsByUsername(loginDto.getUsernameOrEmail())) {
+            throw new ResourceNotFoundException(loginDto.getUsernameOrEmail());
+        }
 
         if (this.employeeRepository.existsByUsername(loginDto.getUsernameOrEmail())) {
             Optional<Employee> employee = this.employeeRepository.findByUsername(loginDto.getUsernameOrEmail());
@@ -66,6 +75,7 @@ public class AuthServiceImp implements AuthService {
                 }
             }
         }
+
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
