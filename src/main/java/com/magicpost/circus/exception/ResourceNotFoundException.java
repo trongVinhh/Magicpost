@@ -22,7 +22,7 @@ public class ResourceNotFoundException extends RuntimeException{
     }
 
     public ResourceNotFoundException(String resourceName, String fieldName) {
-        super(String.format("%s or email not found with: %s", resourceName, fieldName));
+        super(String.format("%s not found with: %s", resourceName, fieldName));
         this.resourceName = resourceName;
     }
 

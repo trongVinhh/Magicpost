@@ -43,7 +43,7 @@ public class DirectorController {
         return new ResponseEntity<>(transactionOfficeDtos, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER_STORAGE', 'ROLE_ADMIN')")
     @GetMapping("/storage/{storageOfficeId}/orders")
     public ResponseEntity<List<OrderDto>> getAllOrdersOfStorage(@PathVariable Long storageOfficeId) {
         List<OrderDto> orders = this.directorService.getAllOrdersInStorage(storageOfficeId);
@@ -64,7 +64,7 @@ public class DirectorController {
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER_TRANSACTION', 'ROLE_ADMIN')")
     @GetMapping("/transactionOffice/{transactionOfficeId}/transactions")
     public ResponseEntity<List<TransactionDto>> getAllTransactionsOfTransactionOffice(@PathVariable Long transactionOfficeId) {
         List<TransactionDto> transactions = this.directorService.getAllTransactionsInTransactionOffice(transactionOfficeId);
