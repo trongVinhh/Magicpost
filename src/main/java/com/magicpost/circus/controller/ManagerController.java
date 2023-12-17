@@ -1,6 +1,6 @@
 package com.magicpost.circus.controller;
 
-import com.magicpost.circus.payload.EmployeeDto;
+import com.magicpost.circus.payload.InfoUserResponse;
 import com.magicpost.circus.payload.StorageOfficeDto;
 import com.magicpost.circus.payload.TransactionOfficeDto;
 import com.magicpost.circus.service.ManagerService;
@@ -21,17 +21,30 @@ public class ManagerController {
         this.managerService = managerService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE')")
     @PutMapping("/setStorageForEmployee/{storageId}/employee/{employeeId}")
     public ResponseEntity<StorageOfficeDto> setStorageOfficeForEmployee(@PathVariable Long employeeId, @PathVariable Long storageId) {
         StorageOfficeDto storageOfficeDto = this.managerService.setStorageOfficeForEmployee(employeeId, storageId);
         return new ResponseEntity<>(storageOfficeDto, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION')")
     @PutMapping("/setTransactionForEmployee/{transactionId}/employee/{employeeId}")
     public ResponseEntity<TransactionOfficeDto> setTransactionOfficeForEmployee(@PathVariable Long employeeId, @PathVariable Long transactionId) {
         TransactionOfficeDto transactionOfficeDto = this.managerService.setTransactionOfficeForEmployee(employeeId, transactionId);
         return new ResponseEntity<>(transactionOfficeDto, HttpStatus.OK);
+    }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE')")
+    @GetMapping("/getStorageIdByUsername")
+    public ResponseEntity<InfoUserResponse> getStorageIdByUsername(@RequestParam("username") String username) {
+        InfoUserResponse info = this.managerService.getStorageIdFromUsername(username);
+        return new ResponseEntity<>(info, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION')")
+    @GetMapping("/getTransactionOfficeIdByUsername")
+    public ResponseEntity<InfoUserResponse> getTransactionOfficeIdByUsername(@RequestParam("username") String username) {
+        InfoUserResponse info = this.managerService.getTransactionOfficeIdFromUsername(username);
+        return new ResponseEntity<>(info, HttpStatus.OK);
     }
 }

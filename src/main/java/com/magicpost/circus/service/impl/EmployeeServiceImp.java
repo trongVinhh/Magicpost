@@ -1,5 +1,7 @@
 package com.magicpost.circus.service.impl;
 
+import com.magicpost.circus.entity.company.branch.StorageOffice;
+import com.magicpost.circus.entity.company.branch.TransactionOffice;
 import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.entity.role.Role;
 import com.magicpost.circus.exception.MagicPostException;
@@ -74,7 +76,23 @@ public class EmployeeServiceImp implements EmployeeService {
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         employee.setRole(roles);
+        // set office based on role
+        long storageId = 1L;
+        long transactionOfficeId = 1L;
+        StorageOffice storageOffice = this.storageOfficeRepository.findById(storageId).orElseThrow(() -> new ResourceNotFoundException("StorageOffice", "id", storageId));
+        TransactionOffice transactionOffice = this.transactionOfficeRepository.findById(transactionOfficeId).orElseThrow(() -> new ResourceNotFoundException("TransactionOffice", "id", transactionOfficeId));
 
+        if (roleName.equals(EmployeeRole.ROLE_MANAGER_STORAGE.toString()) || roleName.equals(EmployeeRole.ROLE_SHIPPER.toString())) {
+            employee.setStorageOffice(storageOffice);
+        } else if (roleName.equals(EmployeeRole.ROLE_MANAGER_TRANSACTION.toString())) {
+            employee.setTransactionOffice(transactionOffice);
+        } else if (roleName.equals(EmployeeRole.ROLE_EMPLOYEE_STORAGE.toString())) {
+            employee.setStorageOffice(storageOffice);
+        } else if (roleName.equals(EmployeeRole.ROLE_EMPLOYEE_TRANSACTION.toString())) {
+            employee.setTransactionOffice(transactionOffice);
+        } else {
+            throw new MagicPostException(HttpStatus.BAD_REQUEST,"Role is not valid!");
+        }
         // save to db
         Employee temp = this.employeeRepository.save(employee);
         return this.mapToDto(temp);
