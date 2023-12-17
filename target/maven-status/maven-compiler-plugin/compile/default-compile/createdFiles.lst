@@ -2,6 +2,7 @@ com\magicpost\circus\payload\JWTAuthResponse.class
 com\magicpost\circus\security\JwtAuthenticationEntryPoint.class
 com\magicpost\circus\security\JwtTokenProvider.class
 com\magicpost\circus\service\CustomerService.class
+com\magicpost\circus\ultis\PackageTransferStatus.class
 com\magicpost\circus\config\SecurityConfig.class
 com\magicpost\circus\entity\info\Transaction.class
 com\magicpost\circus\entity\person\Employee.class
