@@ -1,17 +1,21 @@
 package com.magicpost.circus.service.impl;
 
+import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
 import com.magicpost.circus.entity.info.Order;
+import com.magicpost.circus.entity.info.PackageTransfer;
 import com.magicpost.circus.entity.info.Tracking;
 import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.entity.person.Customer;
 import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.CustomerDto;
+import com.magicpost.circus.payload.OrderDto;
 import com.magicpost.circus.payload.TransactionDto;
 import com.magicpost.circus.repository.*;
 import com.magicpost.circus.service.CustomerService;
 import com.magicpost.circus.service.TransactionEmployeeService;
+import com.magicpost.circus.ultis.PackageTransferStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,18 +40,23 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
 
     @Autowired
     private TrackingRepository trackingRepository;
+    @Autowired
+    private PackageTransferRepository packageTransferRepository;
+    private PackageTransferStatus PackageTransferStatus;
 
     public TransactionEmployeeServiceImp(EmployeeRepository employeeRepository,
                                          TransactionOfficeRepository transactionOfficeRepository,
                                          TransactionRepository transactionRepository,
                                          OrderRepository orderRepository, StorageOfficeRepository storageOfficeRepository,
-                                         TrackingRepository trackingRepository) {
+                                         TrackingRepository trackingRepository,
+                                         PackageTransferRepository packageTransferRepository) {
         this.employeeRepository = employeeRepository;
         this.transactionOfficeRepository = transactionOfficeRepository;
         this.transactionRepository = transactionRepository;
         this.orderRepository = orderRepository;
         this.storageOfficeRepository = storageOfficeRepository;
         this.trackingRepository = trackingRepository;
+        this.packageTransferRepository = packageTransferRepository;
     }
 
     @Override
@@ -69,7 +78,6 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         // order
         Order order = new Order();
         order.setTransactionId(transaction);
-
         // tracking
         Tracking tracking = new Tracking();
         tracking.setStatus("Đang giao hàng");
@@ -132,6 +140,28 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         });
         return transactionDtos;
     }
+
+    @Override
+    public void transferPackageToStorage(String orderCode, Long storageId, Long transactionOfficeId) {
+        Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
+        if (transaction == null) {
+            throw new ResourceNotFoundException("Transaction", orderCode);
+        }
+        TransactionOffice transactionOffice = this.transactionOfficeRepository.findById(transactionOfficeId).orElseThrow(() -> new ResourceNotFoundException("TransactionOffice", "id", transactionOfficeId));
+        StorageOffice storageOffice = this.storageOfficeRepository.findById(storageId).orElseThrow(() -> new ResourceNotFoundException("StorageOffice", "id", storageId));
+
+        PackageTransfer packageTransfer = new PackageTransfer();
+        packageTransfer.setOrderCode(orderCode);
+        packageTransfer.setFrom(PackageTransferStatus.TransactionOfficeToStorage);
+        packageTransfer.setStorageId(storageId);
+        packageTransfer.setTransactionOfficeId(transactionOfficeId);
+        this.packageTransferRepository.save(packageTransfer);
+    }
+
+    @Override
+    public void confirmPackageReceived() {
+    }
+
 
     private Transaction mapToEntity(TransactionDto transactionDto) {
         Transaction transaction = new Transaction();

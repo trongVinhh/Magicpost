@@ -49,6 +49,8 @@ com\magicpost\circus\payload\StorageOfficeDto.class
 com\magicpost\circus\payload\TrackingDto.class
 com\magicpost\circus\entity\info\Order.class
 com\magicpost\circus\entity\company\HeadOffice.class
+com\magicpost\circus\entity\info\PackageTransfer.class
+com\magicpost\circus\controller\employee\EmplTransactionController.class
 com\magicpost\circus\service\RoleService.class
 com\magicpost\circus\repository\EmployeeRepository.class
 com\magicpost\circus\controller\RoleController.class
@@ -60,5 +62,6 @@ com\magicpost\circus\entity\person\Customer.class
 com\magicpost\circus\payload\RoleDto.class
 com\magicpost\circus\repository\StorageOfficeRepository.class
 com\magicpost\circus\controller\transaction\TransactionController.class
+com\magicpost\circus\repository\PackageTransferRepository.class
 com\magicpost\circus\repository\RoleRepository.class
 com\magicpost\circus\payload\OrderDto.class
