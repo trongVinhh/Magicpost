@@ -87,6 +87,12 @@ public class ManagerServiceImp implements ManagerService {
         return info;
     }
 
+    @Override
+    public StorageOfficeDto getStorageById(Long id) {
+        StorageOffice storageOffice = this.storageOfficeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("StorageOffice", "id", id));
+        return this.mapToStorageOfficeDto(storageOffice);
+    }
+
     private Employee mapToEntity(EmployeeDto employeeDto) {
         Employee employee = new Employee();
         employee.setFirstName(employeeDto.getFirstName());

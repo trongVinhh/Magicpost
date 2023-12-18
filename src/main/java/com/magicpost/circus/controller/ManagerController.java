@@ -47,4 +47,16 @@ public class ManagerController {
         InfoUserResponse info = this.managerService.getTransactionOfficeIdFromUsername(username);
         return new ResponseEntity<>(info, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE')")
+    @GetMapping("/getStorage")
+    public ResponseEntity<StorageOfficeDto> getStorageInfoFromId(@RequestParam("id") String id) {
+        try {
+            Long storageId = Long.parseLong(id);
+            StorageOfficeDto storageOfficeDto = this.managerService.getStorageById(storageId);
+            return new ResponseEntity<>(storageOfficeDto, HttpStatus.OK);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
