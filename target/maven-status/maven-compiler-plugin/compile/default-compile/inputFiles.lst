@@ -33,6 +33,7 @@ D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\payload\StorageOffice
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\entity\info\PackageTransfer.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\payload\ManagerDto.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\repository\TransactionRepository.java
+D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\payload\InfoUserResponse.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\controller\ManagerController.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\payload\ErrorDetails.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\payload\LoginDto.java

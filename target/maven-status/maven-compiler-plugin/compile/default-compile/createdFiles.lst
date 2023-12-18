@@ -15,6 +15,7 @@ com\magicpost\circus\payload\LoginDto.class
 com\magicpost\circus\repository\TransactionRepository.class
 com\magicpost\circus\service\impl\CustomerServiceImp.class
 com\magicpost\circus\ultis\PasswordGeneratorEncoder.class
+com\magicpost\circus\payload\InfoUserResponse.class
 com\magicpost\circus\repository\HeadOfficeRepository.class
 com\magicpost\circus\exception\GlobalExceptionHandler.class
 com\magicpost\circus\payload\CustomerDto.class

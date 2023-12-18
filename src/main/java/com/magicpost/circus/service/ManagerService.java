@@ -10,5 +10,6 @@ public interface ManagerService {
 
     InfoUserResponse getStorageIdFromUsername(String username);
     InfoUserResponse getTransactionOfficeIdFromUsername(String username);
+    StorageOfficeDto getStorageById(Long id);
 
 }
