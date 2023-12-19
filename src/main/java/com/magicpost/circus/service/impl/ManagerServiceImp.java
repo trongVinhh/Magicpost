@@ -93,6 +93,12 @@ public class ManagerServiceImp implements ManagerService {
         return this.mapToStorageOfficeDto(storageOffice);
     }
 
+    @Override
+    public TransactionOfficeDto getTransactionOfficeById(Long id) {
+        TransactionOffice transactionOffice = this.transactionOfficeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("TransactionOffice", "id", id));
+        return this.mapToTransactionOfficeDto(transactionOffice);
+    }
+
     private Employee mapToEntity(EmployeeDto employeeDto) {
         Employee employee = new Employee();
         employee.setFirstName(employeeDto.getFirstName());
