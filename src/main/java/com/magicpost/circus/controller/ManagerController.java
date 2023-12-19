@@ -59,4 +59,16 @@ public class ManagerController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION')")
+    @GetMapping("/getTransactionOffice")
+    public ResponseEntity<TransactionOfficeDto> getTransactionOfficeInfoFromId(@RequestParam("id") String id) {
+        try {
+            Long storageId = Long.parseLong(id);
+            TransactionOfficeDto transactionOfficeDto = this.managerService.getTransactionOfficeById(storageId);
+            return new ResponseEntity<>(transactionOfficeDto, HttpStatus.OK);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
