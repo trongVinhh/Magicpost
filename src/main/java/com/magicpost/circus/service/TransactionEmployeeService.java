@@ -1,5 +1,6 @@
 package com.magicpost.circus.service;
 
+import com.magicpost.circus.entity.info.PackageTransfer;
 import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.payload.OrderDto;
 import com.magicpost.circus.payload.TransactionDto;
@@ -13,5 +14,16 @@ public interface TransactionEmployeeService {
     public List<TransactionDto> getAllTransactions();
 
     public void transferPackageToStorage(String orderCode, Long storageId, Long transactionOfficeId);
-    public void confirmPackageReceived();
+    // Danh sách package gửi tới gửi lại điểm giao dịch
+    public List<PackageTransfer> getPackageTransferToTransactionOffice(Long transactionOfficeId);
+    // Xác nhận (đơn) hàng về từ điểm tập kết.
+    public void confirmPackageReceived(String orderCode);
+    // Tạo đơn hàng cần chuyển đến tay người nhận.
+    public void createPackageDelivery(String orderCode, Long transactionOfficeId, Long storageId);
+    // Xác nhận hàng đã chuyển đến tay người nhận theo .
+    public void confirmPackageDelivered(String orderCode, Long transactionOfficeId, Long storageId);
+    // Xác nhận hàng không chuyển được đến người nhận và trả lại điểm giao dịch.
+    public void confirmPackageNotDelivered(String orderCode, Long transactionOfficeId, Long storageId);
+    //Thống kê các hàng đã chuyển thành công, các hàng chuyển không thành công và trả lại điểm giao dịch.
+    public void statisticPackageTransfer(String orderCode, Long transactionOfficeId, Long storageId);
 }

@@ -9,6 +9,7 @@ D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\exception\MagicPostEx
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\entity\info\Order.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\repository\OrderRepository.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\security\CustomUserDetailsService.java
+D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\service\impl\StorageEmployeeServiceImp.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\repository\TrackingRepository.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\ultis\EmployeeRole.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\repository\StorageOfficeRepository.java
@@ -47,7 +48,6 @@ D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\repository\PackageTra
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\ultis\PackageTransferStatus.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\payload\TransactionOfficeDto.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\entity\company\branch\TransactionOffice.java
-D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\controller\employee\EmplTransactionController.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\security\JwtAuthenticationEntryPoint.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\controller\DirectorController.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\entity\role\Role.java
@@ -59,6 +59,7 @@ D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\service\impl\Transact
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\exception\NotAuthorizeException.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\service\CustomerService.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\service\impl\DirectorServiceImp.java
+D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\service\StorageEmployeeService.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\entity\company\branch\StorageOffice.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\CircusApplication.java
 D:\MyData\Dev\Magicpost\src\main\java\com\magicpost\circus\repository\HeadOfficeRepository.java

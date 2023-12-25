@@ -42,7 +42,6 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
     private TrackingRepository trackingRepository;
     @Autowired
     private PackageTransferRepository packageTransferRepository;
-    private PackageTransferStatus PackageTransferStatus;
 
     public TransactionEmployeeServiceImp(EmployeeRepository employeeRepository,
                                          TransactionOfficeRepository transactionOfficeRepository,
@@ -143,23 +142,60 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
 
     @Override
     public void transferPackageToStorage(String orderCode, Long storageId, Long transactionOfficeId) {
-        Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
-        if (transaction == null) {
-            throw new ResourceNotFoundException("Transaction", orderCode);
-        }
-        TransactionOffice transactionOffice = this.transactionOfficeRepository.findById(transactionOfficeId).orElseThrow(() -> new ResourceNotFoundException("TransactionOffice", "id", transactionOfficeId));
-        StorageOffice storageOffice = this.storageOfficeRepository.findById(storageId).orElseThrow(() -> new ResourceNotFoundException("StorageOffice", "id", storageId));
+        List<PackageTransfer> packageTransfers = this.packageTransferRepository.findAll();
+        packageTransfers.forEach(packageTransfer -> {
+            if (packageTransfer.getOrderCode().equals(orderCode)) {
+                return;
+            }
+        });
 
         PackageTransfer packageTransfer = new PackageTransfer();
         packageTransfer.setOrderCode(orderCode);
-        packageTransfer.setFrom(PackageTransferStatus.TransactionOfficeToStorage);
+        packageTransfer.setFrom(PackageTransferStatus.StorageOfficeToTransaction);
         packageTransfer.setStorageId(storageId);
         packageTransfer.setTransactionOfficeId(transactionOfficeId);
         this.packageTransferRepository.save(packageTransfer);
     }
 
     @Override
-    public void confirmPackageReceived() {
+    public List<PackageTransfer> getPackageTransferToTransactionOffice(Long transactionOfficeId) {
+        List<PackageTransfer> packageTransfers = this.packageTransferRepository.findByTransactionOfficeId(transactionOfficeId);
+
+        return packageTransfers;
+    }
+
+    @Override
+    public void confirmPackageReceived(String orderCode) {
+        PackageTransfer packageTransfer = this.packageTransferRepository.findByOrderCode(orderCode);
+        if (packageTransfer == null) {
+            throw new ResourceNotFoundException("PackageTransfer", orderCode);
+        }
+
+        Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
+        transaction.setTransactionId(this.transactionOfficeRepository.findById(packageTransfer.getTransactionOfficeId()).orElseThrow(()
+                -> new ResourceNotFoundException("TransactionOffice", "id", packageTransfer.getTransactionOfficeId())));
+        this.transactionRepository.save(transaction);
+        this.packageTransferRepository.delete(packageTransfer);
+    }
+
+    @Override
+    public void createPackageDelivery(String orderCode, Long transactionOfficeId, Long storageId) {
+
+    }
+
+    @Override
+    public void confirmPackageDelivered(String orderCode, Long transactionOfficeId, Long storageId) {
+
+    }
+
+    @Override
+    public void confirmPackageNotDelivered(String orderCode, Long transactionOfficeId, Long storageId) {
+
+    }
+
+    @Override
+    public void statisticPackageTransfer(String orderCode, Long transactionOfficeId, Long storageId) {
+
     }
 
 
