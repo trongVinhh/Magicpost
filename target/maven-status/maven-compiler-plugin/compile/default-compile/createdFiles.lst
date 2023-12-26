@@ -1,5 +1,6 @@
 com\magicpost\circus\payload\JWTAuthResponse.class
 com\magicpost\circus\security\JwtAuthenticationEntryPoint.class
+com\magicpost\circus\repository\PackageDeliveryRepository.class
 com\magicpost\circus\security\JwtTokenProvider.class
 com\magicpost\circus\service\CustomerService.class
 com\magicpost\circus\ultis\PackageTransferStatus.class
@@ -16,10 +17,12 @@ com\magicpost\circus\repository\TransactionRepository.class
 com\magicpost\circus\service\impl\CustomerServiceImp.class
 com\magicpost\circus\ultis\PasswordGeneratorEncoder.class
 com\magicpost\circus\payload\InfoUserResponse.class
+com\magicpost\circus\service\impl\StorageEmployeeServiceImp.class
 com\magicpost\circus\repository\HeadOfficeRepository.class
 com\magicpost\circus\exception\GlobalExceptionHandler.class
 com\magicpost\circus\payload\CustomerDto.class
 com\magicpost\circus\service\impl\EmployeeServiceImp.class
+com\magicpost\circus\entity\info\PackageDelivery.class
 com\magicpost\circus\controller\ManagerController.class
 com\magicpost\circus\service\TransactionEmployeeService.class
 com\magicpost\circus\service\impl\RoleServiceImp.class
@@ -52,7 +55,7 @@ com\magicpost\circus\payload\TrackingDto.class
 com\magicpost\circus\entity\info\Order.class
 com\magicpost\circus\entity\company\HeadOffice.class
 com\magicpost\circus\entity\info\PackageTransfer.class
-com\magicpost\circus\controller\employee\EmplTransactionController.class
+com\magicpost\circus\service\StorageEmployeeService.class
 com\magicpost\circus\service\RoleService.class
 com\magicpost\circus\repository\EmployeeRepository.class
 com\magicpost\circus\controller\RoleController.class

@@ -2,12 +2,10 @@ package com.magicpost.circus.service.impl;
 
 import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
-import com.magicpost.circus.entity.info.Order;
-import com.magicpost.circus.entity.info.PackageTransfer;
-import com.magicpost.circus.entity.info.Tracking;
-import com.magicpost.circus.entity.info.Transaction;
+import com.magicpost.circus.entity.info.*;
 import com.magicpost.circus.entity.person.Customer;
 import com.magicpost.circus.entity.person.Employee;
+import com.magicpost.circus.exception.MagicPostException;
 import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.CustomerDto;
 import com.magicpost.circus.payload.OrderDto;
@@ -18,6 +16,7 @@ import com.magicpost.circus.service.TransactionEmployeeService;
 import com.magicpost.circus.ultis.PackageTransferStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,22 +33,22 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
-    private CustomerService customerService;
-    @Autowired
     private StorageOfficeRepository storageOfficeRepository;
 
     @Autowired
     private TrackingRepository trackingRepository;
     @Autowired
     private PackageTransferRepository packageTransferRepository;
-    private PackageTransferStatus PackageTransferStatus;
+    @Autowired
+    private PackageDeliveryRepository packageDeliveryRepository;
 
     public TransactionEmployeeServiceImp(EmployeeRepository employeeRepository,
                                          TransactionOfficeRepository transactionOfficeRepository,
                                          TransactionRepository transactionRepository,
                                          OrderRepository orderRepository, StorageOfficeRepository storageOfficeRepository,
                                          TrackingRepository trackingRepository,
-                                         PackageTransferRepository packageTransferRepository) {
+                                         PackageTransferRepository packageTransferRepository,
+                                         PackageDeliveryRepository packageDeliveryRepository) {
         this.employeeRepository = employeeRepository;
         this.transactionOfficeRepository = transactionOfficeRepository;
         this.transactionRepository = transactionRepository;
@@ -57,6 +56,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         this.storageOfficeRepository = storageOfficeRepository;
         this.trackingRepository = trackingRepository;
         this.packageTransferRepository = packageTransferRepository;
+        this.packageDeliveryRepository = packageDeliveryRepository;
     }
 
     @Override
@@ -143,23 +143,87 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
 
     @Override
     public void transferPackageToStorage(String orderCode, Long storageId, Long transactionOfficeId) {
-        Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
-        if (transaction == null) {
-            throw new ResourceNotFoundException("Transaction", orderCode);
-        }
-        TransactionOffice transactionOffice = this.transactionOfficeRepository.findById(transactionOfficeId).orElseThrow(() -> new ResourceNotFoundException("TransactionOffice", "id", transactionOfficeId));
-        StorageOffice storageOffice = this.storageOfficeRepository.findById(storageId).orElseThrow(() -> new ResourceNotFoundException("StorageOffice", "id", storageId));
+        List<PackageTransfer> packageTransfers = this.packageTransferRepository.findAll();
+        packageTransfers.forEach(packageTransfer -> {
+            if (packageTransfer.getOrderCode().equals(orderCode)) {
+                throw new MagicPostException( HttpStatus.BAD_REQUEST, "Package was sent to storage");
+            }
+        });
 
         PackageTransfer packageTransfer = new PackageTransfer();
         packageTransfer.setOrderCode(orderCode);
-        packageTransfer.setFrom(PackageTransferStatus.TransactionOfficeToStorage);
+        packageTransfer.setFrom(PackageTransferStatus.StorageOfficeToTransaction);
         packageTransfer.setStorageId(storageId);
         packageTransfer.setTransactionOfficeId(transactionOfficeId);
         this.packageTransferRepository.save(packageTransfer);
     }
 
     @Override
-    public void confirmPackageReceived() {
+    public List<PackageTransfer> getPackageTransferToTransactionOffice(Long transactionOfficeId) {
+        List<PackageTransfer> packageTransfers = this.packageTransferRepository.findByTransactionOfficeId(transactionOfficeId);
+
+        return packageTransfers;
+    }
+
+    @Override
+    public void confirmPackageReceived(String orderCode) {
+        PackageTransfer packageTransfer = this.packageTransferRepository.findByOrderCode(orderCode);
+        if (packageTransfer == null) {
+            throw new ResourceNotFoundException("PackageTransfer", orderCode);
+        }
+
+        Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
+        transaction.setTransactionId(this.transactionOfficeRepository.findById(packageTransfer.getTransactionOfficeId()).orElseThrow(()
+                -> new ResourceNotFoundException("TransactionOffice", "id", packageTransfer.getTransactionOfficeId())));
+        this.transactionRepository.save(transaction);
+        this.packageTransferRepository.delete(packageTransfer);
+    }
+
+    @Override
+    public void createPackageDelivery(String orderCode) {
+        PackageDelivery packageDelivery = new PackageDelivery();
+        packageDelivery.setOrderCode(orderCode);
+        packageDelivery.setStatus("Đợi giao hàng");
+        packageDeliveryRepository.save(packageDelivery);
+    }
+
+    @Override
+    public List<PackageDelivery> getPackageDelivery() {
+
+        return this.packageDeliveryRepository.findAll();
+    }
+
+    @Override
+    public void confirmPackageDelivered(String orderCode) {
+        PackageDelivery packageDelivery = this.packageDeliveryRepository.findByOrderCode(orderCode);
+        if (packageDelivery == null) {
+            throw new ResourceNotFoundException("PackageDelivery", orderCode);
+        }
+        packageDelivery.setStatus("Đã giao hàng");
+        Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
+        Order order = transaction.getOrder();
+        Tracking tracking = order.getTracking();
+        tracking.setStatus("Đã giao hàng thành công");
+        this.packageDeliveryRepository.save(packageDelivery);
+    }
+
+    @Override
+    public void confirmPackageNotDelivered(String orderCode) {
+        PackageDelivery packageDelivery = this.packageDeliveryRepository.findByOrderCode(orderCode);
+        if (packageDelivery == null) {
+            throw new ResourceNotFoundException("PackageDelivery", orderCode);
+        }
+        packageDelivery.setStatus("Không giao được hàng");
+        Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
+        Order order = transaction.getOrder();
+        Tracking tracking = order.getTracking();
+        tracking.setStatus("Không giao được hàng");
+        this.packageDeliveryRepository.save(packageDelivery);
+    }
+
+    @Override
+    public List<PackageDelivery> statisticPackageTransfer() {
+        return this.packageDeliveryRepository.findAll();
     }
 
 
