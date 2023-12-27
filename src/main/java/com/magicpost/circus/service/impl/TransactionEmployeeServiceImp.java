@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionEmployeeServiceImp implements TransactionEmployeeService {
@@ -80,7 +81,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         order.setTransactionId(transaction);
         // tracking
         Tracking tracking = new Tracking();
-        tracking.setStatus("Đang giao hàng");
+        tracking.setStatus("Đã nhập kho");
         tracking.setOrderId(order);
 
 
@@ -175,12 +176,30 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
         transaction.setTransactionId(this.transactionOfficeRepository.findById(packageTransfer.getTransactionOfficeId()).orElseThrow(()
                 -> new ResourceNotFoundException("TransactionOffice", "id", packageTransfer.getTransactionOfficeId())));
+        Order order = transaction.getOrder();
+        Tracking tracking = order.getTracking();
+        tracking.setStatus("Đang chuyển kho");
         this.transactionRepository.save(transaction);
         this.packageTransferRepository.delete(packageTransfer);
     }
 
     @Override
     public void createPackageDelivery(String orderCode) {
+        this.packageDeliveryRepository.findAll().forEach(packageDelivery -> {
+            if (packageDelivery.getOrderCode().equals(orderCode)
+                    && packageDelivery.getStatus().equals("Đã giao hàng")) {
+                throw new MagicPostException(HttpStatus.BAD_REQUEST, "Package was created");
+            }
+        });
+        Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
+        if (transaction == null) {
+            throw new ResourceNotFoundException("Transaction", orderCode);
+        }
+
+        Order order = transaction.getOrder();
+        Tracking tracking = order.getTracking();
+        tracking.setStatus("Đang giao hàng");
+
         PackageDelivery packageDelivery = new PackageDelivery();
         packageDelivery.setOrderCode(orderCode);
         packageDelivery.setStatus("Đợi giao hàng");
@@ -188,9 +207,10 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
     }
 
     @Override
-    public List<PackageDelivery> getPackageDelivery() {
-
-        return this.packageDeliveryRepository.findAll();
+    public List<PackageDelivery> getPackageDelivering() {
+        List<PackageDelivery> packageDelivering = this.packageDeliveryRepository.findAll().stream()
+                .filter(packageDelivery -> packageDelivery.getStatus().equals("Đợi giao hàng")).toList();
+        return packageDelivering;
     }
 
     @Override
@@ -217,7 +237,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
         Order order = transaction.getOrder();
         Tracking tracking = order.getTracking();
-        tracking.setStatus("Không giao được hàng");
+        tracking.setStatus("Giao hàng không thành không");
         this.packageDeliveryRepository.save(packageDelivery);
     }
 
