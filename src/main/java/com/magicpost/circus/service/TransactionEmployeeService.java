@@ -18,7 +18,7 @@ public interface TransactionEmployeeService {
     // Danh sách package gửi tới gửi lại điểm giao dịch
     public List<PackageTransfer> getPackageTransferToTransactionOffice(Long transactionOfficeId);
     // Xác nhận (đơn) hàng về từ điểm tập kết.
-    public void confirmPackageReceived(String orderCode);
+    public void confirmPackageReceived(String orderCode, Long transactionOfficeId);
     // Tạo đơn hàng cần chuyển đến tay người nhận.
     public void createPackageDelivery(String orderCode);
     public List<PackageDelivery> getPackageDelivering();
