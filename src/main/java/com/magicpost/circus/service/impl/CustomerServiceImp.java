@@ -105,6 +105,20 @@ public class CustomerServiceImp implements CustomerService {
         return trackingDto;
     }
 
+    @Override
+    public List<CustomerDto> getCustomerByPhone(String phone) {
+        List<Customer> customers = this.customerRepository.findByPhone(phone);
+        List<CustomerDto> customerDtos = customers.stream().map(this::mapToDto).collect(Collectors.toList());
+        return customerDtos;
+    }
+
+    @Override
+    public List<CustomerDto> getCustomerByName(String name) {
+        List<Customer> customers = this.customerRepository.findByName(name);
+        List<CustomerDto> customerDtos = customers.stream().map(this::mapToDto).collect(Collectors.toList());
+        return customerDtos;
+    }
+
     private Customer mapToEntity(CustomerDto customerDto) {
         Customer customer = new Customer();
         customer.setFirstName(customerDto.getFirstName());

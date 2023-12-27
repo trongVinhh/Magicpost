@@ -19,8 +19,8 @@ public class PackageTransfer {
     private String orderCode;
     @Column(name = "from_")
     private String from;
-    @Column(name = "storage_id")
-    private Long storageId;
-    @Column(name = "trans_office_id")
-    private Long transactionOfficeId;
+    @Column(name = "start_office_id")
+    private Long startOffice;
+    @Column(name = "end_office_id")
+    private Long endOffice;
 }

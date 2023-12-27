@@ -14,5 +14,7 @@ public interface CustomerService {
     public CustomerDto updateCustomer(Long id, CustomerDto customerDto);
 
     public TrackingDto trackingOrder(String orderCode);
+    public List<CustomerDto> getCustomerByPhone(String phone);
+    public List<CustomerDto> getCustomerByName(String name);
 
 }

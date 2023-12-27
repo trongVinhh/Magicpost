@@ -52,4 +52,20 @@ public class CustomerController {
         CustomerDto dto = this.customerService.updateCustomer(id, customerDto);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION', " +
+            "'ROLE_MANAGER_STORAGE', 'ROLE_EMPLOYEE_TRANSACTION', 'ROLE_EMPLOYEE_STORAGE')")
+    @GetMapping("/phone")
+    public ResponseEntity<List<CustomerDto>> getCustomerByPhoneNumber(@RequestParam("phone") String phone) {
+        List<CustomerDto> dtos = this.customerService.getCustomerByPhone(phone);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION', " +
+            "'ROLE_MANAGER_STORAGE', 'ROLE_EMPLOYEE_TRANSACTION', 'ROLE_EMPLOYEE_STORAGE')")
+    @GetMapping("/name")
+    public ResponseEntity<List<CustomerDto>> getCustomerByName(@RequestParam("name") String name) {
+        List<CustomerDto> dtos = this.customerService.getCustomerByName(name);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
 }

@@ -1,6 +1,5 @@
 package com.magicpost.circus.service.impl;
 
-import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
 import com.magicpost.circus.entity.info.*;
 import com.magicpost.circus.entity.person.Customer;
@@ -8,10 +7,8 @@ import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.exception.MagicPostException;
 import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.CustomerDto;
-import com.magicpost.circus.payload.OrderDto;
 import com.magicpost.circus.payload.TransactionDto;
 import com.magicpost.circus.repository.*;
-import com.magicpost.circus.service.CustomerService;
 import com.magicpost.circus.service.TransactionEmployeeService;
 import com.magicpost.circus.ultis.PackageTransferStatus;
 import jakarta.transaction.Transactional;
@@ -21,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TransactionEmployeeServiceImp implements TransactionEmployeeService {
@@ -142,6 +138,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         return transactionDtos;
     }
 
+    // tạo đơn hàng cần chuyển tới kho
     @Override
     public void transferPackageToStorage(String orderCode, Long storageId, Long transactionOfficeId) {
         List<PackageTransfer> packageTransfers = this.packageTransferRepository.findAll();
@@ -150,32 +147,38 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
                 throw new MagicPostException( HttpStatus.BAD_REQUEST, "Package was sent to storage");
             }
         });
-
+        Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
+        if (transaction == null) {
+            throw new ResourceNotFoundException("Transaction", orderCode);
+        }
         PackageTransfer packageTransfer = new PackageTransfer();
         packageTransfer.setOrderCode(orderCode);
         packageTransfer.setFrom(PackageTransferStatus.StorageOfficeToTransaction);
-        packageTransfer.setStorageId(storageId);
-        packageTransfer.setTransactionOfficeId(transactionOfficeId);
+        packageTransfer.setStartOffice(transactionOfficeId);
+        packageTransfer.setEndOffice(storageId);
         this.packageTransferRepository.save(packageTransfer);
     }
 
+    //  lấy ra danh sách các package đang được chuyển tới điểm giao dịch từ kho
     @Override
     public List<PackageTransfer> getPackageTransferToTransactionOffice(Long transactionOfficeId) {
-        List<PackageTransfer> packageTransfers = this.packageTransferRepository.findByTransactionOfficeId(transactionOfficeId);
+        List<PackageTransfer> packageTransfers = this.packageTransferRepository.findPackageSendToTransactionOfficeById(transactionOfficeId);
 
         return packageTransfers;
     }
 
+    // xác nhận đơn hàng đã nhận tại điểm giao dịch được chuyển tới từ kho
     @Override
-    public void confirmPackageReceived(String orderCode) {
-        PackageTransfer packageTransfer = this.packageTransferRepository.findByOrderCode(orderCode);
+    public void confirmPackageReceived(String orderCode, Long transactionOfficeId) {
+        PackageTransfer packageTransfer = this.packageTransferRepository.findPackageSendFromStorageToTransactionOffice(orderCode, transactionOfficeId);
         if (packageTransfer == null) {
             throw new ResourceNotFoundException("PackageTransfer", orderCode);
         }
 
         Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
-        transaction.setTransactionId(this.transactionOfficeRepository.findById(packageTransfer.getTransactionOfficeId()).orElseThrow(()
-                -> new ResourceNotFoundException("TransactionOffice", "id", packageTransfer.getTransactionOfficeId())));
+
+        transaction.setTransactionId(this.transactionOfficeRepository.findById(packageTransfer.getEndOffice()).orElseThrow(()
+                -> new ResourceNotFoundException("TransactionOffice", "id", packageTransfer.getEndOffice())));
         Order order = transaction.getOrder();
         Tracking tracking = order.getTracking();
         tracking.setStatus("Đang chuyển kho");
@@ -183,6 +186,8 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         this.packageTransferRepository.delete(packageTransfer);
     }
 
+
+    // tạo đơn hàng cần chuyển tới tay người nhận
     @Override
     public void createPackageDelivery(String orderCode) {
         this.packageDeliveryRepository.findAll().forEach(packageDelivery -> {
@@ -206,6 +211,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         packageDeliveryRepository.save(packageDelivery);
     }
 
+    // lấy ra danh sách các đơn hàng đang được giao tới tay người nhận
     @Override
     public List<PackageDelivery> getPackageDelivering() {
         List<PackageDelivery> packageDelivering = this.packageDeliveryRepository.findAll().stream()
@@ -213,6 +219,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         return packageDelivering;
     }
 
+    // xác nhận đơn hàng đã giao tới tay người nhận
     @Override
     public void confirmPackageDelivered(String orderCode) {
         PackageDelivery packageDelivery = this.packageDeliveryRepository.findByOrderCode(orderCode);
@@ -227,6 +234,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         this.packageDeliveryRepository.save(packageDelivery);
     }
 
+    // xác nhận đơn hàng không giao được tới tay người nhận và trả lại điểm giao dịch
     @Override
     public void confirmPackageNotDelivered(String orderCode) {
         PackageDelivery packageDelivery = this.packageDeliveryRepository.findByOrderCode(orderCode);
@@ -241,6 +249,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         this.packageDeliveryRepository.save(packageDelivery);
     }
 
+    // thống kê các đơn hàng đã chuyển thành công, các đơn hàng chuyển không thành công và trả lại điểm giao dịch
     @Override
     public List<PackageDelivery> statisticPackageTransfer() {
         return this.packageDeliveryRepository.findAll();

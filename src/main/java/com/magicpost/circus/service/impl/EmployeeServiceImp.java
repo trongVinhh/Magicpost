@@ -112,6 +112,19 @@ public class EmployeeServiceImp implements EmployeeService {
     }
 
     @Override
+    public List<EmployeeDto> searchEmployee(String keyword) {
+        List<Employee> employees = new ArrayList<>();
+        if (keyword != null && !keyword.isEmpty()) {
+            employees = this.employeeRepository.findByUsernameContaining(keyword);
+            List<EmployeeDto> employeeDtos = employees.stream().map(this::mapToDto).toList();
+            return employeeDtos;
+        } else {
+            return null;
+        }
+
+    }
+
+    @Override
     @Transactional
     public void deleteEmployee(Long id) {
         try {

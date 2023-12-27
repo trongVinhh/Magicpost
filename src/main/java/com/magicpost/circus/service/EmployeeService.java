@@ -1,5 +1,6 @@
 package com.magicpost.circus.service;
 
+import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.payload.EmployeeDto;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface EmployeeService {
     public EmployeeDto updateEmployee(Long roleId, Long id,EmployeeDto employeeDto);
     public List<EmployeeDto> getEmployees();
     public EmployeeDto getEmployeeByUsername(String username);
+
+    public List<EmployeeDto> searchEmployee(String keyword);
 }
