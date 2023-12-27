@@ -20,7 +20,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE_TRANSACTION')")
     @PostMapping
     public ResponseEntity<CustomerDto> createCustomer(@RequestBody  CustomerDto customerDto) {
         CustomerDto dto = this.customerService.createCustomer(customerDto);

@@ -21,7 +21,7 @@ public class TransactionController {
         this.transactionEmployeeService = transactionEmployeeService;
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE_TRANSACTION', 'ROLE_MANAGER_TRANSACTION', 'ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE_TRANSACTION')")
     @PostMapping("/create")
     public ResponseEntity<TransactionDto> createTransaction(@RequestBody TransactionDto transactionDto) throws Exception {
         TransactionDto dto = this.transactionEmployeeService.createTransaction(transactionDto);

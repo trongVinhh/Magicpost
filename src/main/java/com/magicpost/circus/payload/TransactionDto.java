@@ -27,7 +27,8 @@ public class TransactionDto {
     private Long employeeId;
     private Long transactionOfficeId;
     private CustomerDto customerDto;
-
+    private String packageType;
+    private Long postage;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 

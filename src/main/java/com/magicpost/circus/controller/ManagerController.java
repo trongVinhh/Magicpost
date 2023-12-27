@@ -41,7 +41,7 @@ public class ManagerController {
         return new ResponseEntity<>(info, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION', 'ROLE_EMPLOYEE_TRANSACTION')")
     @GetMapping("/getTransactionOfficeIdByUsername")
     public ResponseEntity<InfoUserResponse> getTransactionOfficeIdByUsername(@RequestParam("username") String username) {
         InfoUserResponse info = this.managerService.getTransactionOfficeIdFromUsername(username);
@@ -60,7 +60,7 @@ public class ManagerController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION', 'ROLE_EMPLOYEE_TRANSACTION')")
     @GetMapping("/getTransactionOffice")
     public ResponseEntity<TransactionOfficeDto> getTransactionOfficeInfoFromId(@RequestParam("id") String id) {
         try {

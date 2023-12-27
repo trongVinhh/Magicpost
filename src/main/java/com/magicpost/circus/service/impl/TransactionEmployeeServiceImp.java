@@ -282,6 +282,8 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         transactionDto.setTransactionOfficeId(transaction.getTransactionId().getId());
         transactionDto.setCustomerDto(this.mapToCustomerDto(transaction.getCustomer()));
         transactionDto.setDate(transaction.getDate());
+        transactionDto.setPackageType(transaction.getPackageType());
+        transactionDto.setPostage(transaction.getPostage());
 
         return transactionDto;
     }

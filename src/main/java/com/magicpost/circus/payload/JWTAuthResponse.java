@@ -14,4 +14,5 @@ public class JWTAuthResponse {
     private String tokenType = "Bearer";
     private String role;
     private String username;
+    private Long id;
 }
