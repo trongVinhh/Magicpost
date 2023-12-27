@@ -8,4 +8,5 @@ public interface StorageEmployeeService {
     public void transferPackageToTransactionOffice(String orderCode, Long transactionOfficeId, Long storageId);
     public List<PackageTransfer> getPackageTransferToStorageOffice(Long storageId);
     public void confirmPackageTransferToStorageOffice(String orderCode);
+    
 }

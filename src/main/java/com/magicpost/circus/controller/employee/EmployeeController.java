@@ -1,5 +1,6 @@
 package com.magicpost.circus.controller.employee;
 
+import com.magicpost.circus.entity.info.PackageDelivery;
 import com.magicpost.circus.entity.info.PackageTransfer;
 import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.payload.EmployeeDto;
@@ -107,6 +108,38 @@ public class EmployeeController {
     public ResponseEntity<String> confirmPackageReceived2(@RequestParam("orderCode") String orderCode) {
         this.storageEmployeeService.confirmPackageTransferToStorageOffice(orderCode);
         return new ResponseEntity<>("Package was received", HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('EMPLOYEE_TRANSACTION','ADMIN')")
+    @PostMapping("/createPackageDelivery")
+    public ResponseEntity<String> createPackageDelivery(@RequestParam("orderCode") String orderCode) {
+        this.transactionEmployeeService.createPackageDelivery(orderCode);
+        return new ResponseEntity<>("Package was received", HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('EMPLOYEE_TRANSACTION','ADMIN')")
+    @GetMapping("/packagesDelivering")
+    public ResponseEntity<List<PackageDelivery>> getPackageDelivering() {
+        return new ResponseEntity<>(this.transactionEmployeeService.getPackageDelivering(), HttpStatus.OK);
+    }
+
+    @PreAuthorize(("hasAnyRole('EMPLOYEE_TRANSACTION','ADMIN', 'ROLE_SHIPPER')"))
+    @GetMapping("/confirmPackageDelivered")
+    public ResponseEntity<String> confirmDelivered(@RequestParam("orderCode") String orderCode) {
+        this.transactionEmployeeService.confirmPackageDelivered(orderCode);
+        return new ResponseEntity<>("Package was delivered", HttpStatus.OK);
+    }
+
+    @PreAuthorize(("hasAnyRole('EMPLOYEE_TRANSACTION','ADMIN', 'ROLE_SHIPPER')"))
+    @GetMapping("/confirmPackageNotDelivered")
+    public ResponseEntity<String> confirmNotDelivered(@RequestParam("orderCode") String orderCode) {
+        this.transactionEmployeeService.confirmPackageNotDelivered(orderCode);
+        return new ResponseEntity<>("Package was not delivered", HttpStatus.OK);
+    }
+    @PreAuthorize(("hasAnyRole('EMPLOYEE_TRANSACTION','ADMIN')"))
+    @GetMapping("/statisticPackageDelivering")
+    public ResponseEntity<List<PackageDelivery>> getAllPackageDelivering() {
+        return new ResponseEntity<>(this.transactionEmployeeService.statisticPackageTransfer(), HttpStatus.OK);
     }
 
 }

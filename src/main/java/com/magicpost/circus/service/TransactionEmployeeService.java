@@ -21,7 +21,7 @@ public interface TransactionEmployeeService {
     public void confirmPackageReceived(String orderCode);
     // Tạo đơn hàng cần chuyển đến tay người nhận.
     public void createPackageDelivery(String orderCode);
-    public List<PackageDelivery> getPackageDelivery();
+    public List<PackageDelivery> getPackageDelivering();
     // Xác nhận hàng đã chuyển đến tay người nhận theo .
     public void confirmPackageDelivered(String orderCode);
     // Xác nhận hàng không chuyển được đến người nhận và trả lại điểm giao dịch.
