@@ -196,7 +196,8 @@ public class DirectorServiceImp implements DirectorService {
         transactionDto.setEmployeeId(transaction.getEmployee().getId());
         transactionDto.setTransactionOfficeId(transaction.getTransactionId().getId());
         transactionDto.setDate(transaction.getDate());
-
+        transactionDto.setPostage(transaction.getPostage());
+        transactionDto.setPackageType(transaction.getPackageType());
         return transactionDto;
     }
 
