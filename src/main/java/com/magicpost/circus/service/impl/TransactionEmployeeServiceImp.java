@@ -75,6 +75,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         // order
         Order order = new Order();
         order.setTransactionId(transaction);
+        order.setCurrentStorage(this.storageOfficeRepository.findById(2L).orElseThrow(() -> new ResourceNotFoundException("StorageOffice", "id", 2L)));
         // tracking
         Tracking tracking = new Tracking();
         tracking.setStatus("Đã nhập kho");
