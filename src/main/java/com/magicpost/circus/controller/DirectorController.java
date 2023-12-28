@@ -64,7 +64,7 @@ public class DirectorController {
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER_TRANSACTION', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER_TRANSACTION', 'ROLE_ADMIN', 'ROLE_EMPLOYEE_TRANSACTION')")
     @GetMapping("/transactionOffice/{transactionOfficeId}/transactions")
     public ResponseEntity<List<TransactionDto>> getAllTransactionsOfTransactionOffice(@PathVariable Long transactionOfficeId) {
         List<TransactionDto> transactions = this.directorService.getAllTransactionsInTransactionOffice(transactionOfficeId);

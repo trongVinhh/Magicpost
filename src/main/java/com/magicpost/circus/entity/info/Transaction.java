@@ -39,6 +39,10 @@ public class Transaction {
     private String receiver_name;
     @Column(name = "phone_number")
     private String phoneNumber;
+    @Column(name = "package_type")
+    private String packageType;
+    @Column(name = "postage")
+    private Long postage;
 //    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "date")
     @JsonFormat(pattern = "yyyy-MM-dd")

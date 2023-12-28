@@ -5,6 +5,7 @@ import com.magicpost.circus.entity.company.branch.TransactionOffice;
 import com.magicpost.circus.entity.info.Order;
 import com.magicpost.circus.entity.person.Customer;
 import com.magicpost.circus.entity.person.Employee;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,8 @@ public class TransactionDto {
     private Long employeeId;
     private Long transactionOfficeId;
     private CustomerDto customerDto;
+    private String packageType;
+    private Long postage;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;

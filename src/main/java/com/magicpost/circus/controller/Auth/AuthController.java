@@ -43,6 +43,7 @@ public class AuthController {
         jwtAuthResponse.setAccessToken(token);
         String role = employeeDto.getRole().stream().findFirst().get().getName();
         jwtAuthResponse.setRole(role);
+        jwtAuthResponse.setEmployeeId(employeeDto.getId());
         jwtAuthResponse.setUsername(employeeDto.getUsername());
         return ResponseEntity.ok(jwtAuthResponse);
     }
