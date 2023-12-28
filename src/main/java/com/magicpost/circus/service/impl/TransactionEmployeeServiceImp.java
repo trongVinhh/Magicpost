@@ -265,7 +265,8 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         transaction.setReceiver_name(transactionDto.getReceiverName());
         transaction.setTotalPrice(transactionDto.getTotalPrice());
         transaction.setDate(transactionDto.getDate());
-
+        transaction.setPackageType(transactionDto.getPackageType());
+        transaction.setPostage(transactionDto.getPostage());
         return transaction;
     }
 
@@ -284,7 +285,6 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         transactionDto.setDate(transaction.getDate());
         transactionDto.setPackageType(transaction.getPackageType());
         transactionDto.setPostage(transaction.getPostage());
-
         return transactionDto;
     }
 

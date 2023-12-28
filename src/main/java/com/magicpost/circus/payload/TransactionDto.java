@@ -29,6 +29,7 @@ public class TransactionDto {
     private CustomerDto customerDto;
     private String packageType;
     private Long postage;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 

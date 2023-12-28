@@ -42,9 +42,8 @@ public class AuthController {
         JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
         jwtAuthResponse.setAccessToken(token);
         String role = employeeDto.getRole().stream().findFirst().get().getName();
-        Long id = employeeDto.getId();
         jwtAuthResponse.setRole(role);
-        jwtAuthResponse.setId(id);
+        jwtAuthResponse.setEmployeeId(employeeDto.getId());
         jwtAuthResponse.setUsername(employeeDto.getUsername());
         return ResponseEntity.ok(jwtAuthResponse);
     }
