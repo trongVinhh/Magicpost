@@ -29,14 +29,14 @@ public class DirectorController {
         this.directorService = directorService;
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE_TRANSACTION', 'ROLE_EMPLOYEE_STORAGE')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE_TRANSACTION', 'ROLE_MANAGER_STORAGE','ROLE_EMPLOYEE_STORAGE')")
     @GetMapping("/storage-offices")
     public ResponseEntity<List<StorageOfficeDto>> getStorageOffices() {
         List<StorageOfficeDto> storageOfficeDtos = this.directorService.getAllStorageOffices();
         return new ResponseEntity<>(storageOfficeDtos, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE_STORAGE')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE_TRANSACTION', 'ROLE_MANAGER_TRANSACTION', 'ROLE_EMPLOYEE_STORAGE')")
     @GetMapping("/transaction-offices")
     public ResponseEntity<List<TransactionOfficeDto>> getAllTransactionOffices() {
         List<TransactionOfficeDto> transactionOfficeDtos = this.directorService.getAllTransactionOffices();

@@ -56,17 +56,7 @@ public class SecurityConfig {
                 // configure CORS for http request from client
                 .cors(httpSecurityCorsConfigurer ->
                         httpSecurityCorsConfigurer.configurationSource(request ->
-                                {
-                                    CorsConfiguration configuration = new CorsConfiguration();
-                                    configuration.addAllowedOrigin("*");
-                                    configuration.addAllowedMethod(HttpMethod.PUT);
-                                    configuration.addAllowedMethod(HttpMethod.GET);
-                                    configuration.addAllowedMethod(HttpMethod.POST);
-                                    configuration.addAllowedMethod(HttpMethod.DELETE);
-                                    configuration.addAllowedHeader("*");
-                                    configuration.applyPermitDefaultValues();
-                                    return new CorsConfiguration().applyPermitDefaultValues();
-                                }
+                                new CorsConfiguration().applyPermitDefaultValues()
                         )
                 )
                 // configure authorization for http request from client

@@ -48,7 +48,7 @@ public class ManagerController {
         return new ResponseEntity<>(info, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION', 'ROLE_EMPLOYEE_TRANSACTION')")
     @GetMapping("/getStorage")
     public ResponseEntity<StorageOfficeDto> getStorageInfoFromId(@RequestParam("id") String id) {
         try {

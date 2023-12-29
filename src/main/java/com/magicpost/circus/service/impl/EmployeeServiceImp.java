@@ -151,11 +151,6 @@ public class EmployeeServiceImp implements EmployeeService {
             employee.get().setPhone(employeeDto.getPhone());
             employee.get().setAddress(employeeDto.getAddress());
             employee.get().setRole(roles);
-            if (employeeDto.getPassword() != null) {
-                employee.get().setPassword(passwordEncoder.encode(employeeDto.getPassword()));
-                System.out.println("password: " + employee.get().getPassword());
-            }
-
             employeeUpdated = this.employeeRepository.save(employee.get());
         }
 

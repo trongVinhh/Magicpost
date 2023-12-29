@@ -4,9 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85b5babe-bfe9-49e0-b942-82bebb3eebb9" name="Changes" comment="">
+    <list default="true" id="85b5babe-bfe9-49e0-b942-82bebb3eebb9" name="Changes" comment="Revert &quot;update code&quot;&#10;&#10;This reverts commit 0b5fa517">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/controller/DirectorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/controller/DirectorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/controller/ManagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/controller/ManagerController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/controller/employee/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/controller/employee/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/payload/OrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/payload/OrderDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/payload/TransactionDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/payload/TransactionDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/repository/PackageTransferRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/repository/PackageTransferRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/ManagerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/ManagerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/EmployeeServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/EmployeeServiceImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/ManagerServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/ManagerServiceImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +49,9 @@
     </option>
   </component>
   <component name="ProjectId" id="2XQL7ezEQF3R2y0SsqmhoMfj1Zi" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -54,7 +70,7 @@
       <recent name="com.magicpost.circus.config" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.PasswordGeneratorEncoder">
     <configuration name="PasswordGeneratorEncoder" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.magicpost.circus.ultis.PasswordGeneratorEncoder" />
       <module name="circus" />
@@ -77,6 +93,13 @@
     <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
       <module name="Magicpost" />
       <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CircusApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="circus" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.magicpost.circus.CircusApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -119,6 +142,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Revert &quot;update code&quot;&#10;&#10;This reverts commit 0b5fa517" />
+    <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;update code&quot;&#10;&#10;This reverts commit 0b5fa517" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -170,17 +197,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>142</line>
+          <line>139</line>
           <option name="timeStamp" value="69" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>154</line>
+          <line>150</line>
           <option name="timeStamp" value="70" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>140</line>
+          <line>137</line>
           <option name="timeStamp" value="71" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -240,52 +267,52 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>60</line>
+          <line>59</line>
           <option name="timeStamp" value="91" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>62</line>
+          <line>61</line>
           <option name="timeStamp" value="92" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>61</line>
+          <line>60</line>
           <option name="timeStamp" value="93" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>63</line>
+          <line>62</line>
           <option name="timeStamp" value="94" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>64</line>
+          <line>63</line>
           <option name="timeStamp" value="95" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>65</line>
+          <line>64</line>
           <option name="timeStamp" value="96" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>66</line>
+          <line>65</line>
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>68</line>
+          <line>67</line>
           <option name="timeStamp" value="98" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>72</line>
+          <line>71</line>
           <option name="timeStamp" value="99" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>74</line>
+          <line>73</line>
           <option name="timeStamp" value="100" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -300,82 +327,82 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>79</line>
+          <line>78</line>
           <option name="timeStamp" value="103" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>80</line>
+          <line>79</line>
           <option name="timeStamp" value="104" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>81</line>
+          <line>80</line>
           <option name="timeStamp" value="105" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>82</line>
+          <line>81</line>
           <option name="timeStamp" value="106" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>84</line>
+          <line>83</line>
           <option name="timeStamp" value="107" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>83</line>
+          <line>82</line>
           <option name="timeStamp" value="108" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>85</line>
+          <line>84</line>
           <option name="timeStamp" value="109" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>86</line>
+          <line>85</line>
           <option name="timeStamp" value="110" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>87</line>
+          <line>86</line>
           <option name="timeStamp" value="111" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>88</line>
+          <line>87</line>
           <option name="timeStamp" value="112" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>91</line>
+          <line>90</line>
           <option name="timeStamp" value="113" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>94</line>
+          <line>93</line>
           <option name="timeStamp" value="114" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>143</line>
+          <line>140</line>
           <option name="timeStamp" value="117" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>144</line>
+          <line>141</line>
           <option name="timeStamp" value="118" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>145</line>
+          <line>142</line>
           <option name="timeStamp" value="119" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/DirectorServiceImp.java</url>
-          <line>152</line>
+          <line>148</line>
           <option name="timeStamp" value="123" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -646,7 +673,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/service/impl/TransactionEmployeeServiceImp.java</url>
           <line>59</line>
-          <properties class="com.magicpost.circus.service.impl.TransactionEmployeeServiceImp">
+          <properties class="com.magicpost.circus.service.impl.TransactionEmployeeServiceImp" method="createTransaction">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
@@ -655,7 +682,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/magicpost/circus/controller/transaction/TransactionController.java</url>
           <line>25</line>
-          <properties class="com.magicpost.circus.controller.transaction.TransactionController" method="createTransaction">
+          <properties class="com.magicpost.circus.controller.transaction.TransactionController">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
