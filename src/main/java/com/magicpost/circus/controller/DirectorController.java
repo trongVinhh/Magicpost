@@ -29,37 +29,35 @@ public class DirectorController {
         this.directorService = directorService;
     }
 
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE_TRANSACTION', 'ROLE_EMPLOYEE_STORAGE')")
     @GetMapping("/storage-offices")
     public ResponseEntity<List<StorageOfficeDto>> getStorageOffices() {
         List<StorageOfficeDto> storageOfficeDtos = this.directorService.getAllStorageOffices();
         return new ResponseEntity<>(storageOfficeDtos, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE_STORAGE')")
     @GetMapping("/transaction-offices")
     public ResponseEntity<List<TransactionOfficeDto>> getAllTransactionOffices() {
         List<TransactionOfficeDto> transactionOfficeDtos = this.directorService.getAllTransactionOffices();
         return new ResponseEntity<>(transactionOfficeDtos, HttpStatus.OK);
     }
 
-
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER_STORAGE', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER_STORAGE', 'ROLE_ADMIN','ROLE_EMPLOYEE_STORAGE')")
     @GetMapping("/storage/{storageOfficeId}/orders")
     public ResponseEntity<List<OrderDto>> getAllOrdersOfStorage(@PathVariable Long storageOfficeId) {
         List<OrderDto> orders = this.directorService.getAllOrdersInStorage(storageOfficeId);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE', 'ROLE_MANAGER_TRANSACTION')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/orders")
     public ResponseEntity<List<OrderDto>> getAllOrders() {
         List<OrderDto> orders = this.directorService.getAllOrders();
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_TRANSACTION')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/transactions")
     public ResponseEntity<List<TransactionDto>> getAllTransactions() {
         List<TransactionDto> transactions = this.directorService.getAllTransactions();

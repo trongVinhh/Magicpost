@@ -34,7 +34,7 @@ public class ManagerController {
         TransactionOfficeDto transactionOfficeDto = this.managerService.setTransactionOfficeForEmployee(employeeId, transactionId);
         return new ResponseEntity<>(transactionOfficeDto, HttpStatus.OK);
     }
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE', 'ROLE_EMPLOYEE_STORAGE')")
     @GetMapping("/getStorageIdByUsername")
     public ResponseEntity<InfoUserResponse> getStorageIdByUsername(@RequestParam("username") String username) {
         InfoUserResponse info = this.managerService.getStorageIdFromUsername(username);

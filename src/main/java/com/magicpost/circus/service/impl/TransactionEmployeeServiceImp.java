@@ -154,7 +154,7 @@ public class TransactionEmployeeServiceImp implements TransactionEmployeeService
         }
         PackageTransfer packageTransfer = new PackageTransfer();
         packageTransfer.setOrderCode(orderCode);
-        packageTransfer.setFrom(PackageTransferStatus.StorageOfficeToTransaction);
+        packageTransfer.setFrom(PackageTransferStatus.TransactionOfficeToStorage);
         packageTransfer.setStartOffice(transactionOfficeId);
         packageTransfer.setEndOffice(storageId);
         this.packageTransferRepository.save(packageTransfer);

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
@@ -65,15 +66,15 @@ public class EmployeeController {
     }
 
     // Tìm kiem employee theo username hoặc email hoặc phone hoac tên
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'EMPLOYEE_TRANSACTION', 'EMPLOYEE_STORAGE', " +
-            "'MANAGER_TRANSACTION', 'MANAGER_STORAGE')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE_TRANSACTION', 'ROLE_EMPLOYEE_STORAGE', " +
+            "'ROLE_MANAGER_TRANSACTION', 'ROLE_MANAGER_STORAGE')")
     @GetMapping("/search")
     public ResponseEntity<List<EmployeeDto>> searchEmployee(@RequestParam("keyword") String keyword) {
         return new ResponseEntity<>(this.employeeService.searchEmployee(keyword), HttpStatus.OK);
     }
 
     // chuyển hàng từ điểm giao dịch tới kho
-    @PreAuthorize("hasAnyRole('EMPLOYEE_TRANSACTION','ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE_TRANSACTION','ROLE_ADMIN')")
     @PostMapping("/sendPackageFromTransToWarehouse")
     public ResponseEntity<String> sendPackageFromTransToWarehouse(@RequestParam("orderCode") String orderCode,
                                                          @RequestParam("storageId") String storageId,
@@ -81,23 +82,23 @@ public class EmployeeController {
         this.transactionEmployeeService.transferPackageToStorage(orderCode,
                 Long.valueOf(storageId),
                 Long.valueOf(transactionOfficeId));
-        return new ResponseEntity<>("Package was sent to storage "  + storageId, HttpStatus.OK);
+        return new ResponseEntity<>("123wassenttostorage"  + storageId, HttpStatus.OK);
     }
 
-    // Chuyển đơn hàng từ kho đến điểm giao dịch
-    @PreAuthorize("hasAnyRole('EMPLOYEE_STORAGE','ADMIN')")
+    // Chuyển đơn hàng từ kho đến điểm giao dịch;
+    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE_STORAGE','ROLE_ADMIN')")
     @PostMapping("/sendPackageFromWarehouseToTransactionOffice")
     public ResponseEntity<String> sendPackageFromWarehouseToTransactionOffice(@RequestParam("orderCode") String orderCode,
                                                                  @RequestParam("storageId") String storageId,
                                                                  @RequestParam("transactionOfficeId") String transactionOfficeId) {
         this.storageEmployeeService.transferPackageToTransactionOffice(orderCode,
-                Long.valueOf(storageId),
-                Long.valueOf(transactionOfficeId));
-        return new ResponseEntity<>("Package was sent to transaction office " + transactionOfficeId, HttpStatus.OK);
+                Long.valueOf(transactionOfficeId),
+                Long.valueOf(storageId));
+        return new ResponseEntity<>("Package was sent to transaction office" + transactionOfficeId, HttpStatus.OK);
     }
 
     // Chuyển đơn hàng từ kho này sang kho khác
-    @PreAuthorize("hasAnyRole('EMPLOYEE_STORAGE','ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE_STORAGE','ROLE_ADMIN')")
     @PostMapping("/sendPackageFromWarehouseToWarehouse")
     public ResponseEntity<String> sendPackageFromWarehouseToWarehouse(@RequestParam("orderCode") String orderCode,
                                                                  @RequestParam("currStorageId") String currStorageId,
@@ -109,7 +110,7 @@ public class EmployeeController {
     }
 
     // Danh sách đơn hàng gửi tới điểm giao dịch
-    @PreAuthorize("hasAnyRole('EMPLOYEE_TRANSACTION', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE_TRANSACTION', 'ROLE_ADMIN')")
     @GetMapping("/getPackagesSendToTransactionOffice")
     public List<PackageTransfer> packageTransferToTransactionOffice(
                                     @RequestParam("transactionOfficeId") String transactionOfficeId) {
@@ -117,15 +118,15 @@ public class EmployeeController {
     }
 
     // Danh sách đơn hàng gửi tới kho
-    @PreAuthorize("hasAnyRole('EMPLOYEE_STORAGE', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE_STORAGE', 'ROLE_ADMIN')")
     @GetMapping("/getPackagesSendToStorageOffice")
     public List<PackageTransfer> packageTransferToStorageOffice(@RequestParam("storageId") String storageId) {
         return this.storageEmployeeService.getPackageTransferToStorageOffice(Long.valueOf(storageId));
     }
 
     // Xác nhận đơn hàng về gửi tới kho từ điểm giao dịch hoặc từ kho khác
-    @PreAuthorize("hasAnyRole('EMPLOYEE_TRANSACTION','ADMIN')")
-    @PutMapping("/confirmStoragePackageReceived")
+    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE_STORAGE','ROLE_ADMIN')")
+    @PostMapping("/confirmStoragePackageReceived")
     public ResponseEntity<String> confirmPackageReceived(@RequestParam("orderCode") String orderCode,
                                                          @RequestParam("storageId") String storageId) {
         this.storageEmployeeService.confirmPackageTransferToStorageOffice(orderCode, Long.valueOf(storageId));
@@ -133,8 +134,8 @@ public class EmployeeController {
     }
 
     // Xác nhận đơn hàng về gửi tới điểm giao dịch từ kho
-    @PreAuthorize("hasAnyRole('EMPLOYEE_STORAGE','ADMIN')")
-    @PutMapping("/confirmTransactionPackageReceived")
+    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE_TRANSACTION','ROLE_ADMIN')")
+    @PostMapping("/confirmTransactionPackageReceived")
     public ResponseEntity<String> confirmPackageReceived2(@RequestParam("orderCode") String orderCode,
                                                           @RequestParam("transactionOfficeId") String transactionOfficeId) {
         this.transactionEmployeeService.confirmPackageReceived(orderCode, Long.valueOf(transactionOfficeId));
@@ -142,7 +143,7 @@ public class EmployeeController {
     }
 
     // Tạo đơn hàng giao cho người nhận
-    @PreAuthorize("hasAnyRole('EMPLOYEE_TRANSACTION','ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE_TRANSACTION','ROLE_ADMIN')")
     @PostMapping("/createPackageDelivery")
     public ResponseEntity<String> createPackageDelivery(@RequestParam("orderCode") String orderCode) {
         this.transactionEmployeeService.createPackageDelivery(orderCode);
@@ -150,22 +151,22 @@ public class EmployeeController {
     }
 
     // Danh sách đơn hàng đang giao cho người nhận
-    @PreAuthorize("hasAnyRole('EMPLOYEE_TRANSACTION','ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE_TRANSACTION','ROLE_ADMIN')")
     @GetMapping("/packagesDelivering")
     public ResponseEntity<List<PackageDelivery>> getPackageDelivering() {
         return new ResponseEntity<>(this.transactionEmployeeService.getPackageDelivering(), HttpStatus.OK);
     }
 
     // Xác nhận đơn hàng đã giao cho người nhận
-    @PreAuthorize(("hasAnyRole('EMPLOYEE_TRANSACTION','ADMIN', 'ROLE_SHIPPER')"))
+    @PreAuthorize(("hasAnyRole('ROLE_EMPLOYEE_TRANSACTION','ROLE_ADMIN', 'ROLE_SHIPPER')"))
     @GetMapping("/confirmPackageDelivered")
-    public ResponseEntity<String> confirmDelivered(@RequestParam("orderCode") String orderCode) {
+    public ResponseEntity<String> confkirmDelivered(@RequestParam("orderCode") String orderCode) {
         this.transactionEmployeeService.confirmPackageDelivered(orderCode);
         return new ResponseEntity<>("Package was delivered", HttpStatus.OK);
     }
 
     // Xác nhận đơn hàng không giao được cho người nhận và trả lại điểm giao dịch
-    @PreAuthorize(("hasAnyRole('EMPLOYEE_TRANSACTION','ADMIN', 'ROLE_SHIPPER')"))
+    @PreAuthorize(("hasAnyRole('ROLE_EMPLOYEE_TRANSACTION','ROLE_ADMIN', 'ROLE_SHIPPER')"))
     @GetMapping("/confirmPackageNotDelivered")
     public ResponseEntity<String> confirmNotDelivered(@RequestParam("orderCode") String orderCode) {
         this.transactionEmployeeService.confirmPackageNotDelivered(orderCode);
@@ -173,7 +174,7 @@ public class EmployeeController {
     }
 
     // Thống kê các đơn hàng đã giao thành công, các đơn hàng chuyển không thành công và trả lại điểm giao dịch
-    @PreAuthorize(("hasAnyRole('EMPLOYEE_TRANSACTION','ADMIN')"))
+    @PreAuthorize(("hasAnyRole('ROLE_EMPLOYEE_TRANSACTION','ROLE_ADMIN')"))
     @GetMapping("/statisticPackageDelivering")
     public ResponseEntity<List<PackageDelivery>> getAllPackageDelivering() {
         return new ResponseEntity<>(this.transactionEmployeeService.statisticPackageTransfer(), HttpStatus.OK);

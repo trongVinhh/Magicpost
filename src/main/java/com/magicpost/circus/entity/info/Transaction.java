@@ -44,9 +44,20 @@ public class Transaction {
     @Column(name = "postage")
     private Long postage;
 //    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
+
+    @PrePersist
+    protected void onCreate() {
+        date = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        date = new Date();
+    }
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
