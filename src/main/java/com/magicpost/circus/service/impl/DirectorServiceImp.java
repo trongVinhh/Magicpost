@@ -3,6 +3,7 @@ package com.magicpost.circus.service.impl;
 import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
 import com.magicpost.circus.entity.info.Order;
+import com.magicpost.circus.entity.info.Tracking;
 import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.entity.person.Customer;
 import com.magicpost.circus.exception.ResourceNotFoundException;
@@ -114,10 +115,12 @@ public class DirectorServiceImp implements DirectorService {
             OrderDto orderDto = new OrderDto();
             TransactionDto transactionDto = this.mapToTransactionDto(order.getTransactionId());
             StorageOfficeDto storageOfficeDto = this.mapToStorageOfficeDto(order.getCurrentStorage());
+            Tracking orderTracking = order.getTracking();
             orderDto.setId(order.getId());
             orderDto.setCurrentStorageName(storageOfficeDto.getName());
             orderDto.setCurrentStorageAddress(storageOfficeDto.getAddress());
             orderDto.setTransaction(transactionDto);
+            orderDto.setStatus(orderTracking.getStatus());
             orderDtos.add(orderDto);
         });
         return orderDtos;
@@ -146,10 +149,12 @@ public class DirectorServiceImp implements DirectorService {
             OrderDto orderDto = new OrderDto();
             TransactionDto transactionDto = this.mapToTransactionDto(order.getTransactionId());
             StorageOfficeDto storageOfficeDto = this.mapToStorageOfficeDto(order.getCurrentStorage());
+            Tracking orderTracking = order.getTracking();
             orderDto.setId(order.getId());
             orderDto.setCurrentStorageName(storageOfficeDto.getName());
             orderDto.setCurrentStorageAddress(storageOfficeDto.getAddress());
             orderDto.setTransaction(transactionDto);
+            orderDto.setStatus(orderTracking.getStatus());
             orderDtos.add(orderDto);
         });
         return orderDtos;
@@ -163,7 +168,9 @@ public class DirectorServiceImp implements DirectorService {
         List<TransactionDto> transactionDtos = new ArrayList<>();
         transactions.forEach(transaction -> {
             TransactionDto transactionDto = this.mapToTransactionDto(transaction);
-
+            Order order = transaction.getOrder();
+            Tracking tracking = order.getTracking();
+            transactionDto.setStatus(tracking.getStatus());
             // add to list
             transactionDtos.add(transactionDto);
         });
