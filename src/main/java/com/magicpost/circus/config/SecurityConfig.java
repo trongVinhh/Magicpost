@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableMethodSecurity
@@ -54,11 +55,20 @@ public class SecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 // configure CORS for http request from client
-                .cors(httpSecurityCorsConfigurer ->
-                        httpSecurityCorsConfigurer.configurationSource(request ->
-                                new CorsConfiguration().applyPermitDefaultValues()
-                        )
-                )
+                .cors(cors -> {
+                    CorsConfigurationSource source = request -> {
+                        CorsConfiguration configuration = new CorsConfiguration();
+                        configuration.addAllowedOrigin("*");
+                        configuration.addAllowedMethod(HttpMethod.PUT);
+                        configuration.addAllowedMethod(HttpMethod.GET);
+                        configuration.addAllowedMethod(HttpMethod.POST);
+                        configuration.addAllowedMethod(HttpMethod.DELETE);
+                        configuration.addAllowedHeader("*");
+                        configuration.applyPermitDefaultValues();
+                        return configuration;
+                    };
+                    cors.configurationSource(source);
+                })
                 // configure authorization for http request from client
                 .authorizeHttpRequests((authorize) -> authorize.requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                                                             .requestMatchers("/api/v1/auth/**").permitAll()

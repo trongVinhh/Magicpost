@@ -2,11 +2,16 @@ package com.magicpost.circus.service.impl;
 
 import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
+import com.magicpost.circus.entity.info.Order;
+import com.magicpost.circus.entity.info.PackageTransfer;
+import com.magicpost.circus.entity.info.Tracking;
+import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.entity.role.Role;
 import com.magicpost.circus.exception.MagicPostException;
 import com.magicpost.circus.exception.ResourceNotFoundException;
 import com.magicpost.circus.payload.EmployeeDto;
+import com.magicpost.circus.payload.PackageTransferResponse;
 import com.magicpost.circus.repository.*;
 import com.magicpost.circus.service.EmployeeService;
 import com.magicpost.circus.ultis.EmployeeRole;
@@ -37,6 +42,8 @@ public class EmployeeServiceImp implements EmployeeService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PackageTransferRepository packageTransferRepository;
 
     @Autowired
     private EntityManager entityManager;
@@ -46,13 +53,15 @@ public class EmployeeServiceImp implements EmployeeService {
                               TransactionOfficeRepository transactionOfficeRepository,
                               StorageOfficeRepository storageOfficeRepository,
                               TransactionRepository transactionRepository,
-                              PasswordEncoder passwordEncoder) {
+                              PasswordEncoder passwordEncoder,
+                              PackageTransferRepository packageTransferRepository) {
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
         this.transactionRepository = transactionRepository;
         this.transactionOfficeRepository = transactionOfficeRepository;
         this.storageOfficeRepository = storageOfficeRepository;
         this.passwordEncoder = passwordEncoder;
+        this.packageTransferRepository = packageTransferRepository;
     }
 
     @Override
@@ -125,10 +134,48 @@ public class EmployeeServiceImp implements EmployeeService {
     }
 
     @Override
+    public List<PackageTransferResponse> getAllPackageTransferring() {
+        List<PackageTransferResponse> packageTransferResponses = new ArrayList<>();
+        this.packageTransferRepository.findAll().forEach(packageTransfer -> {
+            packageTransferResponses.add(this.mapToResponse(packageTransfer));
+        });
+        return packageTransferResponses;
+    }
+
+    private PackageTransferResponse mapToResponse(PackageTransfer packageTransfer) {
+        PackageTransferResponse packageTransferResponse = new PackageTransferResponse();
+        String orderCode = packageTransfer.getOrderCode();
+        Transaction transaction = this.transactionRepository.findByOrderCode(orderCode);
+        if (transaction == null) {
+            throw new ResourceNotFoundException("Transaction", "orderCode", orderCode);
+        }
+        Order order = transaction.getOrder();
+        if (order == null) {
+            throw new ResourceNotFoundException("Order", "orderCode", orderCode);
+        }
+        Tracking tracking = order.getTracking();
+        if (tracking == null) {
+            throw new ResourceNotFoundException("Tracking", "orderCode", orderCode);
+        }
+        packageTransferResponse.setId(packageTransfer.getId());
+        packageTransferResponse.setOrderCode(orderCode);
+        packageTransferResponse.setPackageType(transaction.getPackageType());
+        packageTransferResponse.setMass(transaction.getMass());
+        packageTransferResponse.setStatus(tracking.getStatus());
+        packageTransferResponse.setPostage(transaction.getPostage());
+        packageTransferResponse.setCurrentStorageName(order.getCurrentStorage().getName());
+        packageTransferResponse.setCurrentStorageAddress(order.getCurrentStorage().getAddress());
+        packageTransferResponse.setPrice(transaction.getTotalPrice());
+        return packageTransferResponse;
+    }
+
+    @Override
     @Transactional
     public void deleteEmployee(Long id) {
         try {
-            this.employeeRepository.deleteById(id);
+            Employee employee = this.employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", id));
+            employee.setRole(new HashSet<>());
+            this.employeeRepository.delete(employee);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("Employee", "id", id);
         }

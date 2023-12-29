@@ -4,6 +4,7 @@ import com.magicpost.circus.entity.info.PackageDelivery;
 import com.magicpost.circus.entity.info.PackageTransfer;
 import com.magicpost.circus.entity.person.Employee;
 import com.magicpost.circus.payload.EmployeeDto;
+import com.magicpost.circus.payload.PackageTransferResponse;
 import com.magicpost.circus.service.EmployeeService;
 import com.magicpost.circus.service.StorageEmployeeService;
 import com.magicpost.circus.service.TransactionEmployeeService;
@@ -34,7 +35,7 @@ public class EmployeeController {
         this.storageEmployeeService = storageEmployeeService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE', 'ROLE_MANAGER_TRANSACTION')")
     @PostMapping("/role/{roleId}")
     public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto, @PathVariable Long roleId) {
         return new ResponseEntity<>(this.employeeService.createEmployee(employeeDto, roleId), HttpStatus.CREATED);
@@ -51,7 +52,7 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeDto>> getEmployeeS() {
         return new ResponseEntity<>(this.employeeService.getEmployees(), HttpStatus.OK);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE', 'ROLE_MANAGER_TRANSACTION')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         this.employeeService.deleteEmployee(id);
@@ -173,10 +174,16 @@ public class EmployeeController {
     }
 
     // Thống kê các đơn hàng đã giao thành công, các đơn hàng chuyển không thành công và trả lại điểm giao dịch
-    @PreAuthorize(("hasAnyRole('ROLE_EMPLOYEE_TRANSACTION','ROLE_ADMIN')"))
+    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE_TRANSACTION','ROLE_ADMIN', 'ROLE_EMPLOYEE_STORAGE', 'ROLE_MANAGER_STORAGE', 'ROLE_MANAGER_TRANSACTION')")
     @GetMapping("/statisticPackageDelivering")
     public ResponseEntity<List<PackageDelivery>> getAllPackageDelivering() {
         return new ResponseEntity<>(this.transactionEmployeeService.statisticPackageTransfer(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE_TRANSACTION','ROLE_ADMIN', 'ROLE_EMPLOYEE_STORAGE', 'ROLE_MANAGER_STORAGE', 'ROLE_MANAGER_TRANSACTION')")
+    @GetMapping("/getAllPackageTransferring")
+    public ResponseEntity<List<PackageTransferResponse>> getAllPackageTransferring() {
+        return new ResponseEntity<>(this.employeeService.getAllPackageTransferring(), HttpStatus.OK);
     }
 
 }

@@ -3,6 +3,7 @@ package com.magicpost.circus.service.impl;
 import com.magicpost.circus.entity.company.branch.StorageOffice;
 import com.magicpost.circus.entity.company.branch.TransactionOffice;
 import com.magicpost.circus.entity.info.Order;
+import com.magicpost.circus.entity.info.Tracking;
 import com.magicpost.circus.entity.info.Transaction;
 import com.magicpost.circus.entity.person.Customer;
 import com.magicpost.circus.exception.ResourceNotFoundException;
@@ -150,6 +151,8 @@ public class DirectorServiceImp implements DirectorService {
             orderDto.setCurrentStorageName(storageOfficeDto.getName());
             orderDto.setCurrentStorageAddress(storageOfficeDto.getAddress());
             orderDto.setTransaction(transactionDto);
+            Tracking tracking = order.getTracking();
+            orderDto.setStatus(tracking.getStatus());
             orderDtos.add(orderDto);
         });
         return orderDtos;
@@ -198,6 +201,9 @@ public class DirectorServiceImp implements DirectorService {
         transactionDto.setDate(transaction.getDate());
         transactionDto.setPostage(transaction.getPostage());
         transactionDto.setPackageType(transaction.getPackageType());
+        Order order = transaction.getOrder();
+        Tracking tracking = order.getTracking();
+        transactionDto.setStatus(tracking.getStatus());
         return transactionDto;
     }
 
