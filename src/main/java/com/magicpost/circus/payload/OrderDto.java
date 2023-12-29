@@ -15,4 +15,5 @@ public class OrderDto {
     private String currentStorageName;
     private String currentStorageAddress;
     private TransactionDto transaction;
+    private String status;
 }

@@ -8,6 +8,7 @@ public interface ManagerService {
     StorageOfficeDto setStorageOfficeForEmployee(Long employeeId, Long storageOfficeId);
     TransactionOfficeDto setTransactionOfficeForEmployee(Long employeeId, Long transactionOfficeId);
 
+    StorageOfficeDto getStorageOfficeById(Long id);
     InfoUserResponse getStorageIdFromUsername(String username);
     InfoUserResponse getTransactionOfficeIdFromUsername(String username);
     StorageOfficeDto getStorageById(Long id);

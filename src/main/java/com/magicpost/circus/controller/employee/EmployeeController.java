@@ -33,7 +33,7 @@ public class EmployeeController {
         this.storageEmployeeService = storageEmployeeService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'MANAGER_STORAGE', 'MANAGER_TRANSACTION')")
     @PostMapping("/role/{roleId}")
     public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto, @PathVariable Long roleId) {
         return new ResponseEntity<>(this.employeeService.createEmployee(employeeDto, roleId), HttpStatus.CREATED);
@@ -45,20 +45,21 @@ public class EmployeeController {
         return new ResponseEntity<>(this.employeeService.getEmployee(id), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE', 'ROLE_MANAGER_TRANSACTION')")
     @GetMapping
     public ResponseEntity<List<EmployeeDto>> getEmployeeS() {
         return new ResponseEntity<>(this.employeeService.getEmployees(), HttpStatus.OK);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE', 'ROLE_MANAGER_TRANSACTION')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         this.employeeService.deleteEmployee(id);
         return new ResponseEntity<>("Employee id: " + id + " was deleted", HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/{id}/role/{roleId}")
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_STORAGE', 'ROLE_MANAGER_TRANSACTION')")
+    @PostMapping("/{id}/role/{roleId}/update")
     public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable Long roleId, @PathVariable Long id , @RequestBody EmployeeDto employeeDto) {
         return new ResponseEntity<>(this.employeeService.updateEmployee(roleId, id,employeeDto), HttpStatus.OK);
     }
